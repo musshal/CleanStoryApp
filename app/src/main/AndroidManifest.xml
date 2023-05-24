@@ -23,25 +23,25 @@
             android:value="AIzaSyC-fwWSXPTtD9sqpgEqPxvYTzzuJEUB778" />
 
         <activity
-            android:name=".ui.maps.MapsActivity"
+            android:name=".maps.MapsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.detail.DetailActivity"
+            android:name=".detail.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.setting.SettingActivity"
+            android:name=".setting.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.insert.InsertActivity"
+            android:name=".insert.InsertActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.camera.CameraActivity"
+            android:name=".camera.CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
