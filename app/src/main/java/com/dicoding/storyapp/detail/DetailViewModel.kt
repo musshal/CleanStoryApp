@@ -1,35 +1,9 @@
 package com.dicoding.storyapp.detail
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.dicoding.storyapp.core.data.repository.StoryRepository
-import com.dicoding.storyapp.core.data.source.local.datastore.UserPreferences
-import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
-import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
-import kotlinx.coroutines.launch
+import com.dicoding.storyapp.core.domain.usecase.story.StoryUseCase
 
-class DetailViewModel(
-    private val userPreferences: UserPreferences,
-    private val storyRepository: StoryRepository
-    ) : ViewModel() {
+class DetailViewModel(storyUseCase: StoryUseCase) : ViewModel() {
 
-    fun getLogin() : LiveData<UserEntity> = userPreferences.getLogin().asLiveData()
-
-    fun deleteLogin() { viewModelScope.launch { userPreferences.deleteLogin() } }
-
-    fun getDetailStory(token: String, id: String) = storyRepository.getDetailStory(token, id)
-
-    fun saveStory(storyEntity: StoryEntity) {
-        viewModelScope.launch {
-            storyRepository.setStoryBookmark(storyEntity, true)
-        }
-    }
-
-    fun deleteStory(story: StoryEntity) {
-        viewModelScope.launch {
-            storyRepository.setStoryBookmark(story, false)
-        }
-    }
+//    val story = storyUseCase.getDetailStory()
 }

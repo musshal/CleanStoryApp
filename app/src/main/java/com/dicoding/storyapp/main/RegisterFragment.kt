@@ -17,12 +17,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
+import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.RegisterRequest
 import com.dicoding.storyapp.databinding.FragmentRegisterBinding
 import com.dicoding.storyapp.core.ui.ViewModelFactory
-import com.dicoding.storyapp.insert.InsertActivity
+//import com.dicoding.storyapp.insert.InsertActivity
 import com.dicoding.storyapp.setting.SettingActivity
-import com.dicoding.storyapp.core.data.repository.Result
+//import com.dicoding.storyapp.core.data.repository.Result
 
 class RegisterFragment : Fragment() {
 
@@ -150,11 +151,11 @@ class RegisterFragment : Fragment() {
             ).observe(viewLifecycleOwner) { result ->
                 if (result != null) {
                     when (result) {
-                        is Result.Loading -> {
+                        is ApiResponse.Empty -> {
                             progressBar.visibility = View.VISIBLE
                             btnSignUp.isEnabled = false
                         }
-                        is Result.Success -> {
+                        is ApiResponse.Success -> {
                             progressBar.visibility = View.GONE
                             btnSignUp.isEnabled = true
                             Toast.makeText(context,
@@ -163,7 +164,7 @@ class RegisterFragment : Fragment() {
                             ).show()
                             moveToLoginFragment()
                         }
-                        is Result.Error -> {
+                        is ApiResponse.Error -> {
                             btnSignUp.isEnabled = true
                             Toast.makeText(context,
                                 R.string.create_an_account_failed,
@@ -188,10 +189,10 @@ class RegisterFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_insert -> {
-                startActivity(Intent(context, InsertActivity::class.java))
-                true
-            }
+//            R.id.menu_insert -> {
+//                startActivity(Intent(context, InsertActivity::class.java))
+//                true
+//            }
             R.id.menu_setting -> {
                 startActivity(Intent(context, SettingActivity::class.java))
                 true

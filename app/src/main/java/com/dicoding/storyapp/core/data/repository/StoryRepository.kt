@@ -1,121 +1,83 @@
 package com.dicoding.storyapp.core.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.map
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
-import com.dicoding.storyapp.core.data.paging.StoryRemoteMediator
-import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
-import com.dicoding.storyapp.core.data.source.local.room.StoryDao
-import com.dicoding.storyapp.core.data.source.local.room.StoryDatabase
-import com.dicoding.storyapp.core.data.source.remote.network.ApiService
+import androidx.lifecycle.Transformations
+import com.dicoding.storyapp.core.data.NetworkBoundResource
+import com.dicoding.storyapp.core.data.Resource
+import com.dicoding.storyapp.core.data.source.local.LocalDataSource
+import com.dicoding.storyapp.core.data.source.remote.RemoteDataSource
+import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
+import com.dicoding.storyapp.core.data.source.remote.response.StoryResponse
+import com.dicoding.storyapp.core.domain.model.Story
+import com.dicoding.storyapp.core.domain.repository.IStoryRepository
 import com.dicoding.storyapp.core.utils.AppExecutors
+import com.dicoding.storyapp.core.utils.DataMapper
 
 class StoryRepository private constructor(
-    private val apiService: ApiService,
-    private val storyDatabase: StoryDatabase,
-    private val storyDao: StoryDao,
-    ) {
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val appExecutors: AppExecutors
+    ): IStoryRepository {
+
+    override fun addNewStory(
+        token: String?,
+        newStoryRequest: NewStoryRequest
+    ): LiveData<ApiResponse<MessageResponse>> =
+        remoteDataSource.addNewStory(token, newStoryRequest)
+
+    override fun getAllStoriesWithLocation(token: String): LiveData<Resource<List<Story>>> =
+        object : NetworkBoundResource<List<Story>, List<StoryResponse>>(appExecutors) {
+            override fun loadFromDB(): LiveData<List<Story>> =
+                Transformations.map(localDataSource.getAllStoriesWithLocation()) {
+                    DataMapper.mapEntitiesToDomain(it)
+                }
+
+            override fun shouldFetch(data: List<Story>?): Boolean = true
+
+            override fun createCall(): LiveData<ApiResponse<List<StoryResponse>>> =
+                remoteDataSource.getAllStoriesWithLocation(token)
+
+            override fun saveCallResult(data: List<StoryResponse>) {
+                val storiesWithLocationList = DataMapper.mapResponsesToEntities(data)
+                localDataSource.insertStory(storiesWithLocationList)
+            }
+        }.asLiveData()
+
+//    override fun getDetailStory(token: String, id: String) : LiveData<Resource<Story>> =
+//        object : NetworkBoundResource<Story, StoryResponse>(appExecutors) {
+//
+//
+//            override fun shouldFetch(data: Story?): Boolean {}
+//
+//            override fun createCall(): LiveData<ApiResponse<StoryResponse>> {}
+//
+//            override fun saveCallResult(data: StoryResponse) {}
+//        }.asLiveData()
+
+    override fun setStoryBookmark(story: Story, bookmarkState: Boolean) {
+        story.isBookmarked = bookmarkState
+        val storyEntity = DataMapper.mapDomainToEntity(story)
+        appExecutors.diskIO().execute { localDataSource.updateStory(storyEntity) }
+    }
+
+    override fun getBookmarkedStories() : LiveData<List<Story>> =
+        Transformations.map(localDataSource.getBookmarkedStories()) {
+            DataMapper.mapEntitiesToDomain(it)
+        }
 
     companion object {
         @Volatile
         private var instance: StoryRepository? = null
 
         fun getInstance(
-            apiService: ApiService,
-            storyDatabase: StoryDatabase,
-            storyDao: StoryDao,
+            remoteDataSource: RemoteDataSource,
+            localDataSource: LocalDataSource,
             appExecutors: AppExecutors
         ) : StoryRepository =
             instance ?: synchronized(this) {
-                instance ?: StoryRepository(apiService, storyDatabase, storyDao)
+                instance ?: StoryRepository(remoteDataSource, localDataSource, appExecutors)
             }.also { instance = it }
     }
-
-    fun addNewStory(newStoryRequest: NewStoryRequest) : LiveData<Result<MessageResponse>> =
-        liveData {
-            emit(Result.Loading)
-            try {
-                if (newStoryRequest.token.isNotBlank()) {
-                    val responseBody = apiService.addNewStory(
-                        "Bearer ${newStoryRequest.token}",
-                        newStoryRequest.description,
-                        newStoryRequest.photo
-                    )
-                    emit(Result.Success(responseBody))
-                } else {
-                    val responseBody = apiService.addNewStory(
-                        newStoryRequest.description,
-                        newStoryRequest.photo
-                    )
-                    emit(Result.Success(responseBody))
-                }
-            } catch (e: Exception) {
-                Log.d("StoryRepository", "addNewStory: ${e.message.toString()}")
-                emit(Result.Error(e.message.toString()))
-            }
-        }
-
-    fun getAllStories(token: String) : LiveData<PagingData<StoryEntity>> {
-        @OptIn(ExperimentalPagingApi::class)
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService, token),
-            pagingSourceFactory = {
-                storyDatabase.storyDao().getAllStories()
-            }
-        ).liveData
-    }
-
-    fun getAllStoriesWithLocation(token: String): LiveData<Result<List<StoryEntity>>> =
-        liveData {
-            emit(Result.Loading)
-            try {
-                val responseBody = apiService.getAllStoriesWithLocation("Bearer $token")
-                val stories = responseBody.listStory
-                emit(Result.Success(stories))
-            } catch (e: Exception) {
-                Log.d(
-                    "StoryRepository",
-                    "getAllStoriesWithLocation: ${e.message.toString()}")
-                emit(Result.Error(e.message.toString()))
-            }
-    }
-
-    fun getDetailStory(token: String, id: String) : LiveData<Result<StoryEntity>> =
-        liveData {
-            var error = false
-            emit(Result.Loading)
-            try {
-                val responseBody = apiService.getDetailStory("Bearer $token", id)
-                emit(Result.Success(responseBody.story))
-            } catch (e: Exception) {
-                Log.d("StoryRepository", "getDetailStory: ${e.message.toString()}")
-                emit(Result.Error(e.message.toString()))
-                error = true
-            } finally {
-                if (error) {
-                    val localData: LiveData<Result<StoryEntity>> = storyDao.getDetailStory(id).map {
-                        Result.Success(it)
-                    }
-                    emitSource(localData)
-                }
-            }
-        }
-
-    fun setStoryBookmark(story: StoryEntity, bookmarkState: Boolean) {
-        story.isBookmarked = bookmarkState
-        storyDao.updateStory(story)
-    }
-
-    fun getBookmarkedStories() : LiveData<List<StoryEntity>> = storyDao.getBookmarkedStories()
 }

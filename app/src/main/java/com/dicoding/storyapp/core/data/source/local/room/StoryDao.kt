@@ -10,6 +10,9 @@ interface StoryDao {
     @Query("SELECT * FROM stories WHERE isBookmarked == 0 ORDER BY createdAt DESC")
     fun getAllStories(): PagingSource<Int, StoryEntity>
 
+    @Query("SELECT * FROM stories WHERE lat != NULL AND lon != NULL")
+    fun getAllStoriesWithLocation(): LiveData<List<StoryEntity>>
+
     @Query("SELECT * FROM stories WHERE id = :id")
     fun getDetailStory(id: String): LiveData<StoryEntity>
 
@@ -20,7 +23,7 @@ interface StoryDao {
     fun insertStory(stories: List<StoryEntity>)
 
     @Update
-    fun updateStory(stories: StoryEntity)
+    fun updateStory(story: StoryEntity)
 
     @Query("DELETE FROM stories WHERE isBookmarked = 0")
     fun deleteAll()

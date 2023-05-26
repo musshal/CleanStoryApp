@@ -10,22 +10,6 @@ import kotlinx.coroutines.flow.map
 
 class UserPreferences private constructor(private val dataStore: DataStore<Preferences>) {
 
-    companion object {
-        @Volatile
-        private var INSTANCE: UserPreferences? = null
-
-        private val USER_ID = stringPreferencesKey("userId")
-        private val NAME = stringPreferencesKey("name")
-        private val TOKEN = stringPreferencesKey("token")
-
-        fun getInstance(dataStore: DataStore<Preferences>): UserPreferences =
-            INSTANCE ?: synchronized(this) {
-                val instance = UserPreferences(dataStore)
-                INSTANCE = instance
-                instance
-        }
-    }
-
     suspend fun setLogin(user: UserEntity) {
         dataStore.edit { preferences ->
             preferences[USER_ID] = user.userId
@@ -48,5 +32,21 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
         dataStore.edit { preferences ->
             preferences.clear()
         }
+    }
+
+    companion object {
+        @Volatile
+        private var INSTANCE: UserPreferences? = null
+
+        private val USER_ID = stringPreferencesKey("userId")
+        private val NAME = stringPreferencesKey("name")
+        private val TOKEN = stringPreferencesKey("token")
+
+        fun getInstance(dataStore: DataStore<Preferences>): UserPreferences =
+            INSTANCE ?: synchronized(this) {
+                val instance = UserPreferences(dataStore)
+                INSTANCE = instance
+                instance
+            }
     }
 }

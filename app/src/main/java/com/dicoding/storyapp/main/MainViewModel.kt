@@ -4,29 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.dicoding.storyapp.core.data.repository.UserRepository
 import com.dicoding.storyapp.core.data.source.local.datastore.SettingPreferences
 import com.dicoding.storyapp.core.data.source.local.datastore.UserPreferences
 import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import com.dicoding.storyapp.core.data.source.remote.request.LoginRequest
 import com.dicoding.storyapp.core.data.source.remote.request.RegisterRequest
+import com.dicoding.storyapp.core.domain.usecase.user.UserUseCase
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    private val userPreferences: UserPreferences,
-    private val settingPreferences: SettingPreferences,
-    private val userRepository: UserRepository
-    ) : ViewModel() {
+class MainViewModel(private val userUseCase: UserUseCase) : ViewModel() {
+    fun register(registerRequest: RegisterRequest) = userUseCase.register(registerRequest)
+    fun login(loginRequest: LoginRequest) = userUseCase.login(loginRequest)
+    fun setLogin(userEntity: UserEntity) = viewModelScope.launch {
+        userUseCase.setLogin(userEntity)
+    }
+    fun getLogin() : LiveData<UserEntity> = userUseCase.getLogin().asLiveData()
+    fun deleteLogin() { viewModelScope.launch { userUseCase.deleteLogin() } }
 
-    fun register(registerRequest: RegisterRequest) = userRepository.register(registerRequest)
-
-    fun login(loginRequest: LoginRequest) = userRepository.login(loginRequest)
-
-    fun setLogin(user: UserEntity) { viewModelScope.launch { userPreferences.setLogin(user) } }
-
-    fun getLogin() : LiveData<UserEntity> = userPreferences.getLogin().asLiveData()
-
-    fun deleteLogin() { viewModelScope.launch { userPreferences.deleteLogin() } }
-
-    fun getThemeSetting() : LiveData<Boolean> = settingPreferences.getThemeSetting().asLiveData()
+//    fun getThemeSetting() : LiveData<Boolean> = settingPreferences.getThemeSetting().asLiveData()
 }

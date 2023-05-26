@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.camera.CameraActivity
+import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.databinding.ActivityInsertBinding
 import com.dicoding.storyapp.core.ui.ViewModelFactory
@@ -32,7 +33,6 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import com.dicoding.storyapp.core.data.repository.Result
 import com.dicoding.storyapp.main.MainActivity
 
 class InsertActivity : AppCompatActivity() {
@@ -212,16 +212,16 @@ class InsertActivity : AppCompatActivity() {
     }
 
     private fun executeAddNewStory(token: String, desc: RequestBody, photo: MultipartBody.Part) {
-        viewModel.addNewStory(NewStoryRequest(token, desc, photo)).observe(this) { result ->
+        viewModel.addNewStory(token, NewStoryRequest(desc, photo)).observe(this) { result ->
             if (result != null) {
                 when (result) {
-                    is Result.Loading -> {
+                    is ApiResponse.Empty -> {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.btnCameraX.isEnabled = false
                         binding.btnGallery.isEnabled = false
                         binding.btnAdd.isEnabled = false
                     }
-                    is Result.Success -> {
+                    is ApiResponse.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.btnCameraX.isEnabled = true
                         binding.btnGallery.isEnabled = true
@@ -234,7 +234,7 @@ class InsertActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     }
-                    is Result.Error -> {
+                    is ApiResponse.Error -> {
                         binding.progressBar.visibility = View.GONE
                         binding.btnCameraX.isEnabled = true
                         binding.btnGallery.isEnabled = true

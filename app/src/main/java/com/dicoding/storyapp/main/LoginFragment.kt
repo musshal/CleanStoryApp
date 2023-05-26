@@ -19,13 +19,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
+import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.LoginRequest
 import com.dicoding.storyapp.core.data.source.remote.response.LoginResultResponse
 import com.dicoding.storyapp.databinding.FragmentLoginBinding
 import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.insert.InsertActivity
 import com.dicoding.storyapp.setting.SettingActivity
-import com.dicoding.storyapp.core.data.repository.Result
 
 @Suppress("PrivatePropertyName")
 class LoginFragment : Fragment() {
@@ -122,11 +122,11 @@ class LoginFragment : Fragment() {
             viewModel.login(LoginRequest(email, password)).observe(viewLifecycleOwner) { result ->
                 if (result != null) {
                     when (result) {
-                        is Result.Loading -> {
+                        is ApiResponse.Empty -> {
                             progressBar.visibility = View.VISIBLE
                             btnSignIn.isEnabled = false
                         }
-                        is Result.Success -> {
+                        is ApiResponse.Success -> {
                             progressBar.visibility = View.GONE
                             btnSignIn.isEnabled = true
                             Toast.makeText(
@@ -137,7 +137,7 @@ class LoginFragment : Fragment() {
 
                             setLogin(result.data.loginResult)
                         }
-                        is Result.Error -> {
+                        is ApiResponse.Error -> {
                             progressBar.visibility = View.GONE
                             btnSignIn.isEnabled = true
                             Toast.makeText(

@@ -1,6 +1,5 @@
 package com.dicoding.storyapp.core.data.source.remote.response
 
-import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.google.gson.annotations.SerializedName
 
 data class AllStoriesResponse(
@@ -11,5 +10,5 @@ data class AllStoriesResponse(
     val message: String,
 
     @field:SerializedName("listStory")
-    val listStory: List<StoryEntity>
+    val listStory: List<StoryResponse>
 )

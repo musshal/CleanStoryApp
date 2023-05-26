@@ -21,7 +21,7 @@ abstract class StoryDatabase : RoomDatabase() {
             INSTANCE ?: Room.databaseBuilder(
                 context.applicationContext,
                 StoryDatabase::class.java, "stories_db"
-            ).allowMainThreadQueries().build()
+            ).fallbackToDestructiveMigration().build()
         }
     }
 }

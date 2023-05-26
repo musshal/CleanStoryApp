@@ -1,6 +1,7 @@
 package com.dicoding.storyapp.core.data.source.remote.network
 
 import com.dicoding.storyapp.core.data.source.remote.request.LoginRequest
+import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.core.data.source.remote.request.RegisterRequest
 import com.dicoding.storyapp.core.data.source.remote.response.AllStoriesResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
@@ -8,6 +9,7 @@ import com.dicoding.storyapp.core.data.source.remote.response.LoginResponse
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -38,23 +40,20 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part("description") description: RequestBody,
         @Part photo: MultipartBody.Part
-    ): MessageResponse
+    ):
+            MessageResponse
 
     @GET("stories")
-    suspend fun getAllStories(
+    fun getAllStories(
         @Header("Authorization") token: String,
         @Query("page") page: Int,
         @Query("size") size: Int
     ): AllStoriesResponse
 
     @GET("stories?location=1")
-    suspend fun getAllStoriesWithLocation(
-        @Header("Authorization") token: String
-    ): AllStoriesResponse
+    fun getAllStoriesWithLocation(@Header("Authorization") token: String): Call<AllStoriesResponse>
 
     @GET("stories/{id}")
-    suspend fun getDetailStory(
-        @Header("Authorization") token: String,
-        @Path("id") id: String
-    ): DetailStoryResponse
+    fun getDetailStory(@Header("Authorization") token: String, @Path("id") id: String):
+            Call<DetailStoryResponse>
 }
