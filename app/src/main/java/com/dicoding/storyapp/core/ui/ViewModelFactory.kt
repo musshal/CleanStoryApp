@@ -8,7 +8,10 @@ import com.dicoding.storyapp.core.data.source.local.datastore.SettingPreferences
 import com.dicoding.storyapp.core.data.source.local.datastore.UserPreferences
 import com.dicoding.storyapp.core.di.Injection
 import com.dicoding.storyapp.core.domain.usecase.story.StoryUseCase
+import com.dicoding.storyapp.core.domain.usecase.storypaging.StoryPagingUseCase
 import com.dicoding.storyapp.core.domain.usecase.user.UserUseCase
+import com.dicoding.storyapp.detail.DetailViewModel
+import com.dicoding.storyapp.home.HomeViewModel
 import com.dicoding.storyapp.insert.InsertViewModel
 //import com.dicoding.storyapp.home.HomeViewModel
 //import com.dicoding.storyapp.insert.InsertViewModel
@@ -20,7 +23,8 @@ class ViewModelFactory(
     private val userPreferences: UserPreferences,
     private val settingPreferences: SettingPreferences,
     private val userUseCase: UserUseCase,
-    private val storyUseCase: StoryUseCase
+    private val storyUseCase: StoryUseCase,
+    private val storyPagingUseCase: StoryPagingUseCase
     ) : NewInstanceFactory() {
 
     companion object {
@@ -33,7 +37,8 @@ class ViewModelFactory(
                     Injection.provideUserPreferences(context),
                     Injection.provideSettingPreferences(context),
                     Injection.provideUserUseCase(context),
-                    Injection.provideStoryUseCase(context)
+                    Injection.provideStoryUseCase(context),
+                    Injection.provideStoryPagingUseCase(context)
                 )
             }.also { instance = it }
     }
@@ -47,12 +52,12 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(InsertViewModel::class.java) -> {
                 InsertViewModel(userUseCase, storyUseCase) as T
             }
-//            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
-//                DetailViewModel(userPreferences, storyRepository) as T
-//            }
-//            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-//                HomeViewModel(userPreferences, storyRepository) as T
-//            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(userUseCase, storyUseCase) as T
+            }
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(userUseCase, storyUseCase, storyPagingUseCase) as T
+            }
             modelClass.isAssignableFrom(SettingViewModel::class.java) -> {
                 SettingViewModel(userPreferences, settingPreferences) as T
             }

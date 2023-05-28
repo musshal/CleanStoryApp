@@ -70,51 +70,29 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             }
         }
 
-    fun getAllStoriesWithLocation(token: String): LiveData<ApiResponse<List<StoryResponse>>> {
-        val resultData = MutableLiveData<ApiResponse<List<StoryResponse>>>()
-        val client = apiService.getAllStoriesWithLocation(token)
-
-        client.enqueue(object : Callback<AllStoriesResponse> {
-            override fun onResponse(
-                call: Call<AllStoriesResponse>,
-                response: Response<AllStoriesResponse>
-            ) {
-                val dataArray = response.body()?.listStory
-                resultData.value =
-                    if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty
+    fun getDetailStory(token: String, id: String): LiveData<ApiResponse<DetailStoryResponse>> =
+        liveData {
+            emit(ApiResponse.Empty)
+            try {
+                val response = apiService.getDetailStory(token, id)
+                emit(ApiResponse.Success(response))
+            } catch (exception: Exception) {
+                Log.d("RemoteDataSource", "getDetailStory: ${exception.message.toString()}")
+                emit(ApiResponse.Error(exception.message.toString()))
             }
-
-            override fun onFailure(call: Call<AllStoriesResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-                Log.e("RemoteDataSource", t.message.toString())
-            }
-        })
-
-        return resultData
     }
 
-    fun getDatailStory(token: String, id: String): LiveData<ApiResponse<StoryResponse>> {
-        val resultData = MutableLiveData<ApiResponse<StoryResponse>>()
-        val client = apiService.getDetailStory(token, id)
-
-        client.enqueue(object : Callback<DetailStoryResponse> {
-            override fun onResponse(
-                call: Call<DetailStoryResponse>,
-                response: Response<DetailStoryResponse>
-            ) {
-                val dataObject = response.body()?.story
-                resultData.value =
-                    if (dataObject != null) ApiResponse.Success(dataObject) else ApiResponse.Empty
+    fun getAllStoriesWithLocation(token: String): LiveData<ApiResponse<AllStoriesResponse>> =
+        liveData {
+            emit(ApiResponse.Empty)
+            try {
+                val response = apiService.getAllStoriesWithLocation(token)
+                emit(ApiResponse.Success(response))
+            } catch (exception: Exception) {
+                Log.d("RemoteDataSource", "getAllStoriesWithLocation: ${exception.message.toString()}")
+                emit(ApiResponse.Error(exception.message.toString()))
             }
-
-            override fun onFailure(call: Call<DetailStoryResponse>, t: Throwable) {
-                resultData.value = ApiResponse.Error(t.message.toString())
-                Log.e("RemoteDataSource", t.message.toString())
-            }
-        })
-
-        return resultData
-    }
+        }
 
     companion object {
         @Volatile

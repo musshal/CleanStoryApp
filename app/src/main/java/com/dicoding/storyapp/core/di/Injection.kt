@@ -17,6 +17,8 @@ import com.dicoding.storyapp.core.data.source.remote.network.ApiConfig
 import com.dicoding.storyapp.core.di.Injection.userDataStore
 import com.dicoding.storyapp.core.domain.usecase.story.StoryInteractor
 import com.dicoding.storyapp.core.domain.usecase.story.StoryUseCase
+import com.dicoding.storyapp.core.domain.usecase.storypaging.StoryPagingInteractor
+import com.dicoding.storyapp.core.domain.usecase.storypaging.StoryPagingUseCase
 import com.dicoding.storyapp.core.domain.usecase.user.UserInteractor
 import com.dicoding.storyapp.core.domain.usecase.user.UserUseCase
 import com.dicoding.storyapp.core.utils.AppExecutors
@@ -86,5 +88,11 @@ object Injection {
         val storyRepository = provideStoryRepository(context)
 
         return StoryInteractor(storyRepository)
+    }
+
+    fun provideStoryPagingUseCase(context: Context): StoryPagingUseCase {
+        val storyPagingRepository = provideStoryPagingRepository(context)
+
+        return StoryPagingInteractor(storyPagingRepository)
     }
 }

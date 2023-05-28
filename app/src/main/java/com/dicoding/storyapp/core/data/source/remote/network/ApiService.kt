@@ -40,20 +40,19 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part("description") description: RequestBody,
         @Part photo: MultipartBody.Part
-    ):
-            MessageResponse
+    ): MessageResponse
 
     @GET("stories")
-    fun getAllStories(
+    suspend fun getAllStories(
         @Header("Authorization") token: String,
         @Query("page") page: Int,
         @Query("size") size: Int
     ): AllStoriesResponse
 
     @GET("stories?location=1")
-    fun getAllStoriesWithLocation(@Header("Authorization") token: String): Call<AllStoriesResponse>
+    fun getAllStoriesWithLocation(@Header("Authorization") token: String): AllStoriesResponse
 
     @GET("stories/{id}")
     fun getDetailStory(@Header("Authorization") token: String, @Path("id") id: String):
-            Call<DetailStoryResponse>
+            DetailStoryResponse
 }
