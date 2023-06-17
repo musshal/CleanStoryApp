@@ -3,7 +3,6 @@ package com.dicoding.storyapp.core.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
-//import com.dicoding.storyapp.core.data.repository.StoryRepository
 import com.dicoding.storyapp.core.data.source.local.datastore.SettingPreferences
 import com.dicoding.storyapp.core.data.source.local.datastore.UserPreferences
 import com.dicoding.storyapp.core.di.Injection
@@ -13,10 +12,7 @@ import com.dicoding.storyapp.core.domain.usecase.user.UserUseCase
 import com.dicoding.storyapp.detail.DetailViewModel
 import com.dicoding.storyapp.home.HomeViewModel
 import com.dicoding.storyapp.insert.InsertViewModel
-//import com.dicoding.storyapp.home.HomeViewModel
-//import com.dicoding.storyapp.insert.InsertViewModel
 import com.dicoding.storyapp.main.MainViewModel
-//import com.dicoding.storyapp.maps.MapsViewModel
 import com.dicoding.storyapp.setting.SettingViewModel
 
 class ViewModelFactory(

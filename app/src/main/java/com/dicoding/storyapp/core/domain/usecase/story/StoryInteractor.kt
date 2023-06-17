@@ -8,7 +8,6 @@ import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.core.data.source.remote.response.AllStoriesResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
-import com.dicoding.storyapp.core.domain.model.Story
 
 class StoryInteractor(private val storyRepository: StoryRepository): StoryUseCase {
     override fun addNewStory(

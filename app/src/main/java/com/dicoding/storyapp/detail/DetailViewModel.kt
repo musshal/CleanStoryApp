@@ -8,7 +8,6 @@ import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
-import com.dicoding.storyapp.core.domain.model.Story
 import com.dicoding.storyapp.core.domain.usecase.story.StoryUseCase
 import com.dicoding.storyapp.core.domain.usecase.user.UserUseCase
 import kotlinx.coroutines.launch
@@ -17,11 +16,14 @@ class DetailViewModel(
     private val userUseCase: UserUseCase,
     private val storyUseCase: StoryUseCase
     ) : ViewModel() {
+
     fun getLogin(): LiveData<UserEntity> = userUseCase.getLogin().asLiveData()
 
     fun deleteLogin() { viewModelScope.launch { userUseCase.deleteLogin() } }
+
     fun getDetailStory(token: String, id: String): LiveData<ApiResponse<DetailStoryResponse>> =
         storyUseCase.getDetailStory(token, id)
+
     fun saveStory(story: StoryEntity) {
         viewModelScope.launch {
             storyUseCase.setStoryBookmark(story, true)
