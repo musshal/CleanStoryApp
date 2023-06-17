@@ -44,7 +44,7 @@ class ViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                MainViewModel(userUseCase) as T
+                MainViewModel(userUseCase, settingPreferences) as T
             }
             modelClass.isAssignableFrom(InsertViewModel::class.java) -> {
                 InsertViewModel(userUseCase, storyUseCase) as T
