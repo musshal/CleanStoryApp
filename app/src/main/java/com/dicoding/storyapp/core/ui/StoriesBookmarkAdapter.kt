@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.storyapp.R
-import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
+import com.dicoding.storyapp.core.domain.model.Story
 import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.detail.DetailActivity
 
-class StoriesBookmarkAdapter(private val onBookmarkClick: (StoryEntity) -> Unit) :
-    ListAdapter<StoryEntity, StoriesBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
+class StoriesBookmarkAdapter(private val onBookmarkClick: (Story) -> Unit) :
+    ListAdapter<Story, StoriesBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(val binding: ItemRowStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -25,7 +25,7 @@ class StoriesBookmarkAdapter(private val onBookmarkClick: (StoryEntity) -> Unit)
         val tvStoryDescription = binding.tvItemDescription
         val ivBookmark = binding.ivBookmark
 
-        fun bind(story: StoryEntity) {
+        fun bind(story: Story) {
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_STORY, story)
@@ -73,17 +73,17 @@ class StoriesBookmarkAdapter(private val onBookmarkClick: (StoryEntity) -> Unit)
     }
 
     companion object {
-        val DIFF_CALLBACK: DiffUtil.ItemCallback<StoryEntity> =
-            object : DiffUtil.ItemCallback<StoryEntity>() {
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<Story> =
+            object : DiffUtil.ItemCallback<Story>() {
                 override fun areItemsTheSame(
-                    oldItem: StoryEntity,
-                    newItem: StoryEntity
+                    oldItem: Story,
+                    newItem: Story
                 ) : Boolean = oldItem.id == newItem.id
 
                 @SuppressLint("DiffUtilEquals")
                 override fun areContentsTheSame(
-                    oldItem: StoryEntity,
-                    newItem: StoryEntity
+                    oldItem: Story,
+                    newItem: Story
                 ) : Boolean = oldItem == newItem
             }
     }

@@ -14,6 +14,7 @@ import com.dicoding.storyapp.R
 import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.response.StoryResponse
+import com.dicoding.storyapp.core.domain.model.Story
 import com.dicoding.storyapp.databinding.ActivityDetailBinding
 import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.core.utils.DateFormatter
@@ -37,7 +38,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setTitle(R.string.detail_story)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val story = intent.getParcelableExtra(EXTRA_STORY) as StoryEntity?
+        val story = intent.getParcelableExtra(EXTRA_STORY) as Story?
 
         if (story != null) {
             setupViewModel()
@@ -46,13 +47,13 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupAction(story: StoryEntity) {
+    private fun setupAction(story: Story) {
         binding.swipeRefreshLayout.setOnRefreshListener {
             setupData(story)
         }
     }
 
-    private fun setupData(story: StoryEntity) {
+    private fun setupData(story: Story) {
         fabBookmarkAction(story)
 
         viewModel.getLogin().observe(this) { user ->
@@ -89,7 +90,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun fabBookmarkAction(story: StoryEntity) {
+    private fun fabBookmarkAction(story: Story) {
         binding.apply {
             if (story.isBookmarked) {
                 fabDetailSaveBookmark.setImageDrawable(ContextCompat.getDrawable(
