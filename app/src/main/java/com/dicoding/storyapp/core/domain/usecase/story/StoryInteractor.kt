@@ -8,6 +8,7 @@ import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.core.data.source.remote.response.AllStoriesResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
+import com.dicoding.storyapp.core.domain.model.Story
 
 class StoryInteractor(private val storyRepository: StoryRepository): StoryUseCase {
     override fun addNewStory(
@@ -15,9 +16,9 @@ class StoryInteractor(private val storyRepository: StoryRepository): StoryUseCas
         newStoryRequest: NewStoryRequest
     ): LiveData<ApiResponse<MessageResponse>> = storyRepository.addNewStory(token, newStoryRequest)
 
-    override fun getBookmarkedStories(): LiveData<List<StoryEntity>> =
+    override fun getBookmarkedStories(): LiveData<List<Story>> =
         storyRepository.getBookmarkedStories()
-    override fun setStoryBookmark(story: StoryEntity, bookmarkState: Boolean) =
+    override fun setStoryBookmark(story: Story, bookmarkState: Boolean) =
         storyRepository.setStoryBookmark(story, bookmarkState)
     override fun getDetailStory(token: String, id: String): LiveData<ApiResponse<DetailStoryResponse>> =
         storyRepository.getDetailStory(token, id)
