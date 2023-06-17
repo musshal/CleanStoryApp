@@ -13,6 +13,7 @@ import com.dicoding.storyapp.detail.DetailViewModel
 import com.dicoding.storyapp.home.HomeViewModel
 import com.dicoding.storyapp.insert.InsertViewModel
 import com.dicoding.storyapp.main.MainViewModel
+import com.dicoding.storyapp.maps.MapsViewModel
 import com.dicoding.storyapp.setting.SettingViewModel
 
 class ViewModelFactory(
@@ -57,9 +58,9 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(SettingViewModel::class.java) -> {
                 SettingViewModel(userPreferences, settingPreferences) as T
             }
-//            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
-//                MapsViewModel(userPreferences, storyRepository) as T
-//            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(userUseCase, storyUseCase) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

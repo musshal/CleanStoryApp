@@ -81,7 +81,9 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
         liveData {
             emit(ApiResponse.Empty)
             try {
-                val response = apiService.getAllStoriesWithLocation(token)
+                val response = apiService.getAllStoriesWithLocation(
+                    "Bearer $token"
+                )
                 emit(ApiResponse.Success(response))
             } catch (exception: Exception) {
                 Log.d("RemoteDataSource", "getAllStoriesWithLocation: ${exception.message.toString()}")
