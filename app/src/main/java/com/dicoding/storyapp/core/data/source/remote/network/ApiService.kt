@@ -1,7 +1,6 @@
 package com.dicoding.storyapp.core.data.source.remote.network
 
 import com.dicoding.storyapp.core.data.source.remote.request.LoginRequest
-import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.core.data.source.remote.request.RegisterRequest
 import com.dicoding.storyapp.core.data.source.remote.response.AllStoriesResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
@@ -9,7 +8,6 @@ import com.dicoding.storyapp.core.data.source.remote.response.LoginResponse
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -50,9 +48,9 @@ interface ApiService {
     ): AllStoriesResponse
 
     @GET("stories?location=1")
-    fun getAllStoriesWithLocation(@Header("Authorization") token: String): AllStoriesResponse
+    suspend fun getAllStoriesWithLocation(@Header("Authorization") token: String): AllStoriesResponse
 
     @GET("stories/{id}")
-    fun getDetailStory(@Header("Authorization") token: String, @Path("id") id: String):
+    suspend fun getDetailStory(@Header("Authorization") token: String, @Path("id") id: String):
             DetailStoryResponse
 }

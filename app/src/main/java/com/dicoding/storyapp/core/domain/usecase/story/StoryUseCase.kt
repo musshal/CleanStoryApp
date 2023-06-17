@@ -1,14 +1,12 @@
 package com.dicoding.storyapp.core.domain.usecase.story
 
 import androidx.lifecycle.LiveData
-import com.dicoding.storyapp.core.data.Resource
 import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.core.data.source.remote.response.AllStoriesResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
-import com.dicoding.storyapp.core.domain.model.Story
 
 interface StoryUseCase {
     fun addNewStory(

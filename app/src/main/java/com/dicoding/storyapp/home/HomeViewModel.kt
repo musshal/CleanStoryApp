@@ -8,7 +8,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
-import com.dicoding.storyapp.core.domain.model.Story
 import com.dicoding.storyapp.core.domain.usecase.story.StoryUseCase
 import com.dicoding.storyapp.core.domain.usecase.storypaging.StoryPagingUseCase
 import com.dicoding.storyapp.core.domain.usecase.user.UserUseCase

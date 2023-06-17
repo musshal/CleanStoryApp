@@ -110,10 +110,10 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(Intent(this, InsertActivity::class.java))
                 true
             }
-//            R.id.menu_maps -> {
-//                startActivity(Intent(this, MapsActivity::class.java))
-//                true
-//            }
+            R.id.menu_maps -> {
+                startActivity(Intent(this, MapsActivity::class.java))
+                true
+            }
             R.id.menu_setting -> {
                 startActivity(Intent(this, SettingActivity::class.java))
                 true

@@ -2,7 +2,6 @@ package com.dicoding.storyapp.core.data.source.remote
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.network.ApiService
@@ -13,10 +12,6 @@ import com.dicoding.storyapp.core.data.source.remote.response.AllStoriesResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
 import com.dicoding.storyapp.core.data.source.remote.response.LoginResponse
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
-import com.dicoding.storyapp.core.data.source.remote.response.StoryResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RemoteDataSource private constructor(private val apiService: ApiService){
 
@@ -74,7 +69,7 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
         liveData {
             emit(ApiResponse.Empty)
             try {
-                val response = apiService.getDetailStory(token, id)
+                val response = apiService.getDetailStory("Bearer $token", id)
                 emit(ApiResponse.Success(response))
             } catch (exception: Exception) {
                 Log.d("RemoteDataSource", "getDetailStory: ${exception.message.toString()}")
@@ -86,7 +81,9 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
         liveData {
             emit(ApiResponse.Empty)
             try {
-                val response = apiService.getAllStoriesWithLocation(token)
+                val response = apiService.getAllStoriesWithLocation(
+                    "Bearer $token"
+                )
                 emit(ApiResponse.Success(response))
             } catch (exception: Exception) {
                 Log.d("RemoteDataSource", "getAllStoriesWithLocation: ${exception.message.toString()}")
