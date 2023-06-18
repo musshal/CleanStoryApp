@@ -12,10 +12,14 @@ import com.dicoding.storyapp.core.data.source.remote.response.AllStoriesResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
 import com.dicoding.storyapp.core.data.source.remote.response.LoginResponse
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource private constructor(private val apiService: ApiService){
 
-    fun register(registerRequest: RegisterRequest): LiveData<ApiResponse<MessageResponse>> = liveData {
+    fun register(registerRequest: RegisterRequest): Flow<ApiResponse<MessageResponse>> = flow {
         emit(ApiResponse.Empty)
         try {
             val response = apiService.register(registerRequest)
@@ -24,7 +28,7 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             Log.e("RemoteDataSource", "register: ${exception.message.toString()}")
             emit(ApiResponse.Error(exception.message.toString()))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     fun login(loginRequest: LoginRequest): LiveData<ApiResponse<LoginResponse>> = liveData {
         emit(ApiResponse.Empty)

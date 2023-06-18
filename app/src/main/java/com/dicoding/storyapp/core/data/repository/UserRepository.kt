@@ -18,7 +18,7 @@ class UserRepository private constructor(
     ): IUserRepository {
 
     override fun register(registerRequest: RegisterRequest):
-            LiveData<ApiResponse<MessageResponse>> = remoteDataSource.register(registerRequest)
+            Flow<ApiResponse<MessageResponse>> = remoteDataSource.register(registerRequest)
 
     override fun login(loginRequest: LoginRequest): LiveData<ApiResponse<LoginResponse>> =
         remoteDataSource.login(loginRequest)

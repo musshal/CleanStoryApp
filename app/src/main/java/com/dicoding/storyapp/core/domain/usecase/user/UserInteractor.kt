@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 class UserInteractor(private val userRepository: UserRepository): UserUseCase {
     override fun register(registerRequest: RegisterRequest):
-            LiveData<ApiResponse<MessageResponse>> = userRepository.register(registerRequest)
+            Flow<ApiResponse<MessageResponse>> = userRepository.register(registerRequest)
     override fun login(loginRequest: LoginRequest): LiveData<ApiResponse<LoginResponse>> =
         userRepository.login(loginRequest)
     override suspend fun setLogin(userEntity: UserEntity) = userRepository.setLogin(userEntity)
