@@ -10,7 +10,7 @@ import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
 import kotlinx.coroutines.flow.Flow
 
 interface IUserRepository {
-    fun register(registerRequest: RegisterRequest): LiveData<ApiResponse<MessageResponse>>
+    fun register(registerRequest: RegisterRequest): Flow<ApiResponse<MessageResponse>>
     fun login(loginRequest: LoginRequest): LiveData<ApiResponse<LoginResponse>>
     suspend fun setLogin(userEntity: UserEntity)
     fun getLogin(): Flow<UserEntity>
