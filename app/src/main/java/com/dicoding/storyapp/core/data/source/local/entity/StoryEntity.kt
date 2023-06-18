@@ -19,10 +19,10 @@ class StoryEntity(
     @field:ColumnInfo(name = "description")
     val description: String,
 
-    @field:ColumnInfo(name = "photoUrl")
+    @field:ColumnInfo(name = "photo_url")
     val photoUrl: String,
 
-    @field:ColumnInfo(name = "createdAt")
+    @field:ColumnInfo(name = "created_at")
     val createdAt: String,
 
     @field:ColumnInfo(name = "lat")
@@ -31,6 +31,6 @@ class StoryEntity(
     @field:ColumnInfo(name = "lon")
     val lon: Double? = null,
 
-    @field:ColumnInfo(name = "isBookmarked")
+    @field:ColumnInfo(name = "is_bookmarked")
     var isBookmarked: Boolean
 ) : Parcelable

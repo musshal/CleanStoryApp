@@ -24,9 +24,9 @@ class HomeViewModel(
     fun deleteLogin() { viewModelScope.launch { userUseCase.deleteLogin() } }
 
     fun getAllStories(token: String): LiveData<PagingData<Story>> =
-        storyPagingUseCase.getAllStories(token).cachedIn(viewModelScope)
+        storyPagingUseCase.getAllStories(token).cachedIn(viewModelScope).asLiveData()
 
-    fun getBookmarkedStories() = storyUseCase.getBookmarkedStories()
+    fun getBookmarkedStories() = storyUseCase.getBookmarkedStories().asLiveData()
 
     fun saveStory(story: Story) {
         viewModelScope.launch {

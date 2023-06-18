@@ -16,7 +16,7 @@ class MainViewModel(
     private val settingPreferences: SettingPreferences
     ) : ViewModel() {
     fun register(registerRequest: RegisterRequest) = userUseCase.register(registerRequest).asLiveData()
-    fun login(loginRequest: LoginRequest) = userUseCase.login(loginRequest)
+    fun login(loginRequest: LoginRequest) = userUseCase.login(loginRequest).asLiveData()
     fun setLogin(userEntity: UserEntity) = viewModelScope.launch {
         userUseCase.setLogin(userEntity)
     }

@@ -9,7 +9,7 @@ import com.dicoding.storyapp.core.data.source.local.entity.RemoteKeys
 import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.dicoding.storyapp.core.data.source.local.room.StoryDatabase
 import com.dicoding.storyapp.core.data.source.remote.network.ApiService
-import com.dicoding.storyapp.core.utils.DataMapper
+import com.dicoding.storyapp.core.utils.StoryDataMapper
 
 @OptIn(ExperimentalPagingApi::class)
 class StoryRemoteMediator(
@@ -69,7 +69,7 @@ class StoryRemoteMediator(
                 }
                 storyDatabase.remoteKeysDao().insertAll(keys)
                 storyDatabase.storyDao().insertStory(
-                    DataMapper.mapResponsesToEntities(responseData.listStory)
+                    StoryDataMapper.mapResponsesToEntities(responseData.listStory)
                 )
             }
 

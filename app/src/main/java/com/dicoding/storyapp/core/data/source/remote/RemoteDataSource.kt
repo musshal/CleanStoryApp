@@ -1,8 +1,6 @@
 package com.dicoding.storyapp.core.data.source.remote
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.network.ApiService
 import com.dicoding.storyapp.core.data.source.remote.request.LoginRequest
@@ -30,7 +28,7 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
         }
     }.flowOn(Dispatchers.IO)
 
-    fun login(loginRequest: LoginRequest): LiveData<ApiResponse<LoginResponse>> = liveData {
+    fun login(loginRequest: LoginRequest): Flow<ApiResponse<LoginResponse>> = flow {
         emit(ApiResponse.Empty)
         try {
             val response = apiService.login(loginRequest)
@@ -38,13 +36,13 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
         } catch (exception: Exception) {
             Log.e("RemoteDataSource", "login: ${exception.message.toString()}")
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     fun addNewStory(
         token: String? = null,
         newStoryRequest: NewStoryRequest
-    ): LiveData<ApiResponse<MessageResponse>> =
-        liveData {
+    ): Flow<ApiResponse<MessageResponse>> =
+        flow {
             emit(ApiResponse.Empty)
             try {
                 if (token != null) {
@@ -67,33 +65,31 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
                 Log.d("RemoteDataSource", "addNewStory: ${e.message.toString()}")
                 emit(ApiResponse.Error(e.message.toString()))
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
-    fun getDetailStory(token: String, id: String): LiveData<ApiResponse<DetailStoryResponse>> =
-        liveData {
-            emit(ApiResponse.Empty)
-            try {
-                val response = apiService.getDetailStory("Bearer $token", id)
-                emit(ApiResponse.Success(response))
-            } catch (exception: Exception) {
-                Log.d("RemoteDataSource", "getDetailStory: ${exception.message.toString()}")
-                emit(ApiResponse.Error(exception.message.toString()))
-            }
-    }
-
-    fun getAllStoriesWithLocation(token: String): LiveData<ApiResponse<AllStoriesResponse>> =
-        liveData {
-            emit(ApiResponse.Empty)
-            try {
-                val response = apiService.getAllStoriesWithLocation(
-                    "Bearer $token"
-                )
-                emit(ApiResponse.Success(response))
-            } catch (exception: Exception) {
-                Log.d("RemoteDataSource", "getAllStoriesWithLocation: ${exception.message.toString()}")
-                emit(ApiResponse.Error(exception.message.toString()))
-            }
+    fun getDetailStory(token: String, id: String): Flow<ApiResponse<DetailStoryResponse>> = flow {
+        emit(ApiResponse.Empty)
+        try {
+            val response = apiService.getDetailStory("Bearer $token", id)
+            emit(ApiResponse.Success(response))
+        } catch (exception: Exception) {
+            Log.d("RemoteDataSource", "getDetailStory: ${exception.message.toString()}")
+            emit(ApiResponse.Error(exception.message.toString()))
         }
+    }.flowOn(Dispatchers.IO)
+
+    fun getAllStoriesWithLocation(token: String): Flow<ApiResponse<AllStoriesResponse>> = flow {
+        emit(ApiResponse.Empty)
+        try {
+            val response = apiService.getAllStoriesWithLocation(
+                "Bearer $token"
+            )
+            emit(ApiResponse.Success(response))
+        } catch (exception: Exception) {
+            Log.d("RemoteDataSource", "getAllStoriesWithLocation: ${exception.message.toString()}")
+            emit(ApiResponse.Error(exception.message.toString()))
+        }
+    }.flowOn(Dispatchers.IO)
 
     companion object {
         @Volatile

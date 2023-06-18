@@ -19,5 +19,5 @@ class MapsViewModel(
     fun deleteLogin() { viewModelScope.launch { userUseCase.deleteLogin() } }
 
     fun getAllStoriesWithLocation(token: String) =
-        storyUseCase.getAllStoriesWithLocation(token)
+        storyUseCase.getAllStoriesWithLocation(token).asLiveData()
 }

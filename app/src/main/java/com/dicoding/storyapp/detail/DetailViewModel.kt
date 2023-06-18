@@ -22,7 +22,7 @@ class DetailViewModel(
     fun deleteLogin() { viewModelScope.launch { userUseCase.deleteLogin() } }
 
     fun getDetailStory(token: String, id: String): LiveData<ApiResponse<DetailStoryResponse>> =
-        storyUseCase.getDetailStory(token, id)
+        storyUseCase.getDetailStory(token, id).asLiveData()
 
     fun saveStory(story: Story) {
         viewModelScope.launch {
