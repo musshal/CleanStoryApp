@@ -4,7 +4,7 @@ import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.dicoding.storyapp.core.data.source.remote.response.StoryResponse
 import com.dicoding.storyapp.core.domain.model.Story
 
-object DataMapper {
+object StoryDataMapper {
     fun mapResponsesToEntities(input: List<StoryResponse>): List<StoryEntity> {
         val storyList = ArrayList<StoryEntity>()
         input.map {

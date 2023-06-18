@@ -7,6 +7,7 @@ import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import com.dicoding.storyapp.core.data.source.local.room.StoryDao
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class LocalDataSource private constructor(
     private val userPreferences: UserPreferences,
@@ -21,12 +22,12 @@ class LocalDataSource private constructor(
 
     fun getAllStories(): PagingSource<Int, StoryEntity> = storyDao.getAllStories()
 
+    fun getBookmarkedStories(): Flow<List<StoryEntity>> = storyDao.getBookmarkedStories()
+
     fun getAllStoriesWithLocation(): LiveData<List<StoryEntity>> =
         storyDao.getAllStoriesWithLocation()
 
     fun getDetailStory(id: String): LiveData<StoryEntity> = storyDao.getDetailStory(id)
-
-    fun getBookmarkedStories(): LiveData<List<StoryEntity>> = storyDao.getBookmarkedStories()
 
     fun insertStory(stories: List<StoryEntity>) = storyDao.insertStory(stories)
 

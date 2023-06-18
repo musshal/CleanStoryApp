@@ -21,7 +21,7 @@ import com.dicoding.storyapp.R
 import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.LoginRequest
-import com.dicoding.storyapp.core.data.source.remote.response.LoginResultResponse
+import com.dicoding.storyapp.core.data.source.remote.response.LoginResult
 import com.dicoding.storyapp.databinding.FragmentLoginBinding
 import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.insert.InsertActivity
@@ -194,7 +194,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun setLogin(loginResult: LoginResultResponse) {
+    private fun setLogin(loginResult: LoginResult) {
         loginResult.apply { viewModel.setLogin(UserEntity(userId, name, token)) }
     }
 

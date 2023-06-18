@@ -20,5 +20,5 @@ class  InsertViewModel(
     fun deleteLogin() { viewModelScope.launch { userUseCase.deleteLogin() } }
 
     fun addNewStory(token: String? = null, newStoryRequest: NewStoryRequest) =
-        storyUseCase.addNewStory(token, newStoryRequest)
+        storyUseCase.addNewStory(token, newStoryRequest).asLiveData()
 }
