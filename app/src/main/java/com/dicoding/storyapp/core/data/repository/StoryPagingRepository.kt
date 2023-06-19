@@ -1,6 +1,5 @@
 package com.dicoding.storyapp.core.data.repository
 
-import androidx.lifecycle.map
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
