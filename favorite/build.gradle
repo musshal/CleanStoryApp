@@ -39,4 +39,5 @@ dependencies {
 
     implementation project(':core')
     implementation project(':app')
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 }
