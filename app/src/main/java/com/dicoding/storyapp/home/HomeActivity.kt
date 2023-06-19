@@ -6,18 +6,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyapp.R
-import com.dicoding.storyapp.ui.SectionsPagerAdapter
 import com.dicoding.storyapp.databinding.ActivityHomeBinding
 import com.dicoding.storyapp.insert.InsertActivity
 import com.dicoding.storyapp.main.MainActivity
 import com.dicoding.storyapp.maps.MapsActivity
 import com.dicoding.storyapp.setting.SettingActivity
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import com.dicoding.storyapp.ui.LoadingStateAdapter
+import com.dicoding.storyapp.ui.StoriesHomeAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("PrivatePropertyName")
@@ -29,11 +28,7 @@ class HomeActivity : AppCompatActivity() {
     private var backPressedTime: Long = 0
 
     private lateinit var binding: ActivityHomeBinding
-
-    companion object {
-        @StringRes
-        private val TAB_TITLES = intArrayOf(R.string.home, R.string.bookmark)
-    }
+    private lateinit var storiesHomeAdapter: StoriesHomeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +37,17 @@ class HomeActivity : AppCompatActivity() {
 
         supportActionBar?.elevation = 0f
 
-        setupSectionsPagerAdapter()
+        setupAdapter()
+        setupData()
+        setData()
         setupAction()
     }
 
     private fun setupAction() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            setupData()
+        }
+
         this.onBackPressedDispatcher.addCallback(this, object :
             OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -64,31 +65,42 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    private fun setupSectionsPagerAdapter() {
-        val sectionsPagerAdapter = SectionsPagerAdapter(this)
-        binding.viewPager.adapter = sectionsPagerAdapter
-        TabLayoutMediator(binding.tabs, binding.viewPager) { tab: TabLayout.Tab, position: Int ->
-            tab.text = resources.getString(TAB_TITLES[position])
-        }.attach()
-
-        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {}
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> {
-                        val homeFragment =
-                            supportFragmentManager.findFragmentByTag("f0") as? HomeFragment
-                        homeFragment?.scrollToTop()
-                    }
-                    1 -> {
-                        val bookmarkFragment =
-                            supportFragmentManager.findFragmentByTag("f1") as? BookmarkFragment
-                        bookmarkFragment?.scrollToTop()
-                    }
+    private fun setData() {
+        binding.rvStories.apply {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = storiesHomeAdapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    storiesHomeAdapter.retry()
                 }
+            )
+        }
+    }
+
+    private fun setupData() {
+        viewModel.getLogin().observe(this) { user ->
+            if (user.token.isNotBlank()) {
+                executeGetAllStories(user.token)
             }
-        })
+        }
+
+        binding.swipeRefreshLayout.isRefreshing = false
+    }
+
+    private fun executeGetAllStories(token: String) {
+        viewModel.getAllStories(token).observe(this) {
+            storiesHomeAdapter.submitData(lifecycle, it)
+        }
+    }
+
+    private fun setupAdapter() {
+        storiesHomeAdapter = StoriesHomeAdapter { story ->
+            if (story.isBookmarked) {
+                viewModel.deleteStory(story)
+            } else {
+                viewModel.saveStory(story)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
