@@ -24,7 +24,7 @@ class StoryPagingRepository(
             config = PagingConfig(
                 pageSize = 5
             ),
-            remoteMediator = com.dicoding.storyapp.core.data.paging.StoryRemoteMediator(
+            remoteMediator = StoryRemoteMediator(
                 storyDatabase,
                 apiService,
                 token

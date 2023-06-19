@@ -26,8 +26,6 @@ class HomeViewModel(
     fun getAllStories(token: String): LiveData<PagingData<Story>> =
         storyPagingUseCase.getAllStories(token).cachedIn(viewModelScope).asLiveData()
 
-    fun getBookmarkedStories() = storyUseCase.getBookmarkedStories().asLiveData()
-
     fun saveStory(story: Story) = storyUseCase.setStoryBookmark(story, true)
 
     fun deleteStory(story: Story) = storyUseCase.setStoryBookmark(story, false)

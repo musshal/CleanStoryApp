@@ -1,4 +1,4 @@
-package com.dicoding.storyapp.ui
+package com.dicoding.storyapp.favorite
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,10 +14,10 @@ import com.dicoding.storyapp.core.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.core.domain.model.Story
 import com.dicoding.storyapp.detail.DetailActivity
 
-class StoriesBookmarkAdapter(private val onBookmarkClick: (Story) -> Unit) :
-    ListAdapter<Story, StoriesBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
+class StoriesFavoriteAdapter(private val onBookmarkClick: (Story) -> Unit) :
+    ListAdapter<Story, StoriesFavoriteAdapter.ViewHolder>(DIFF_CALLBACK) {
 
-    inner class ViewHolder(val binding: ItemRowStoryBinding) :
+    inner class ViewHolder(binding: ItemRowStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         val ivStoryImage = binding.ivItemPhoto
@@ -56,12 +56,12 @@ class StoriesBookmarkAdapter(private val onBookmarkClick: (Story) -> Unit) :
         if (story.isBookmarked) {
             ivBookmark.setImageDrawable(ContextCompat.getDrawable(
                 ivBookmark.context,
-                R.drawable.baseline_bookmark_48)
+                R.drawable.baseline_favorite_48)
             )
         } else {
             ivBookmark.setImageDrawable(ContextCompat.getDrawable(
                 ivBookmark.context,
-                R.drawable.baseline_bookmark_border_48)
+                R.drawable.baseline_favorite_border_48)
             )
         }
 
