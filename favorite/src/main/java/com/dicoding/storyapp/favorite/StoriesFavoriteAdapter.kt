@@ -1,4 +1,4 @@
-package com.dicoding.storyapp.ui
+package com.dicoding.storyapp.favorite
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,8 +14,8 @@ import com.dicoding.storyapp.core.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.core.domain.model.Story
 import com.dicoding.storyapp.detail.DetailActivity
 
-class StoriesBookmarkAdapter(private val onBookmarkClick: (Story) -> Unit) :
-    ListAdapter<Story, StoriesBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
+class StoriesFavoriteAdapter(private val onBookmarkClick: (Story) -> Unit) :
+    ListAdapter<Story, StoriesFavoriteAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(val binding: ItemRowStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -1,6 +1,7 @@
 package com.dicoding.storyapp.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -112,6 +113,11 @@ class HomeActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menu_insert -> {
                 startActivity(Intent(this, InsertActivity::class.java))
+                true
+            }
+            R.id.menu_favorite -> {
+                val uri = Uri.parse("storyapp://favorite")
+                startActivity(Intent(Intent.ACTION_VIEW, uri))
                 true
             }
             R.id.menu_maps -> {

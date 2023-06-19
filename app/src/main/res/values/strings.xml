@@ -56,4 +56,6 @@
     <string name="email_must_be_a_valid_email">Email must be a valid email</string>
     <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters</string>
     <string name="retry">Retry</string>
+    <string name="title_favorite">Module Title</string>
+    <string name="favorite">Favorite</string>
 </resources>
