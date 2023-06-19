@@ -2,6 +2,7 @@ package com.dicoding.storyapp.favorite
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyapp.favorite.databinding.ActivityFavoriteBinding
@@ -23,6 +24,7 @@ class FavoriteActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Favorite"
         supportActionBar?.elevation = 0f
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setupAdapter()
         setupData()
@@ -56,6 +58,16 @@ class FavoriteActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = storiesFavoriteAdapter
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> true
         }
     }
 }

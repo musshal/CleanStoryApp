@@ -7,7 +7,7 @@
         app:showAsAction="always" />
     <item android:id="@+id/menu_favorite"
         android:title="@string/favorite"
-        android:icon="@drawable/baseline_favorite_24"
+        android:icon="@drawable/baseline_favorite_48"
         app:showAsAction="always" />
     <item android:id="@+id/menu_maps"
         android:title="@string/maps"

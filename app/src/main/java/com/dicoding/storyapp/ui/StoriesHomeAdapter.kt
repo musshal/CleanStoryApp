@@ -57,12 +57,12 @@ class StoriesHomeAdapter(private val onBookmarkClick: (Story) -> Unit) :
             if (story.isBookmarked) {
                 ivBookmark.setImageDrawable(ContextCompat.getDrawable(
                     ivBookmark.context,
-                    R.drawable.baseline_bookmark_48)
+                    R.drawable.baseline_favorite_48)
                 )
             } else {
                 ivBookmark.setImageDrawable(ContextCompat.getDrawable(
                     ivBookmark.context,
-                    R.drawable.baseline_bookmark_border_48)
+                    R.drawable.baseline_favorite_border_48)
                 )
             }
 
