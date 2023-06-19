@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
-import com.dicoding.storyapp.BuildConfig
+import com.dicoding.storyapp.core.BuildConfig
 import com.dicoding.storyapp.core.data.repository.StoryPagingRepository
 import com.dicoding.storyapp.core.data.repository.StoryRepository
 import com.dicoding.storyapp.core.data.repository.UserRepository

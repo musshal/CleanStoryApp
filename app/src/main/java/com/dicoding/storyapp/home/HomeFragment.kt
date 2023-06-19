@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyapp.databinding.FragmentHomeBinding
-import com.dicoding.storyapp.core.ui.LoadingStateAdapter
-import com.dicoding.storyapp.core.ui.StoriesHomeAdapter
+import com.dicoding.storyapp.ui.LoadingStateAdapter
+import com.dicoding.storyapp.ui.StoriesHomeAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
