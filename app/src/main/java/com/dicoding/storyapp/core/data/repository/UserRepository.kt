@@ -27,17 +27,4 @@ class UserRepository(
     override fun getLogin(): Flow<UserEntity> = localDataSource.getLogin()
 
     override suspend fun deleteLogin() = localDataSource.deleteLogin()
-
-    companion object {
-        @Volatile
-        private var instance: UserRepository? = null
-
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource
-        ): UserRepository =
-            instance ?: synchronized(this) {
-                instance ?: UserRepository(remoteDataSource, localDataSource)
-            }.also { instance = it }
-    }
 }

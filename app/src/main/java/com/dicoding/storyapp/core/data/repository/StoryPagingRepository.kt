@@ -42,17 +42,4 @@ class StoryPagingRepository(
                 )
             }
         }
-
-    companion object {
-        @Volatile
-        private var instance: StoryPagingRepository? = null
-
-        fun getInstance(
-            apiService: ApiService,
-            storyDatabase: StoryDatabase
-        ): StoryPagingRepository =
-            instance ?: synchronized(this) {
-                instance ?: StoryPagingRepository(apiService, storyDatabase)
-            }.also { instance = it }
-    }
 }

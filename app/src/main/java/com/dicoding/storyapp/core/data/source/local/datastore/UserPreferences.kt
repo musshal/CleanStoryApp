@@ -35,18 +35,9 @@ class UserPreferences(private val dataStore: DataStore<Preferences>) {
     }
 
     companion object {
-        @Volatile
-        private var INSTANCE: UserPreferences? = null
 
-        private val USER_ID = stringPreferencesKey("id")
+        private val USER_ID = stringPreferencesKey("userId")
         private val NAME = stringPreferencesKey("name")
         private val TOKEN = stringPreferencesKey("token")
-
-        fun getInstance(dataStore: DataStore<Preferences>): UserPreferences =
-            INSTANCE ?: synchronized(this) {
-                val instance = UserPreferences(dataStore)
-                INSTANCE = instance
-                instance
-            }
     }
 }

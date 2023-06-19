@@ -9,21 +9,6 @@ import kotlinx.coroutines.flow.map
 
 class SettingPreferences(private val dataStore: DataStore<Preferences>) {
 
-    companion object {
-        @Volatile
-        private var INSTANCE: SettingPreferences? = null
-
-        private val THEME_KEY = booleanPreferencesKey("theme_setting")
-
-        fun getInstance(dataStore: DataStore<Preferences>) : SettingPreferences {
-            return INSTANCE ?: synchronized(this) {
-                val instance = SettingPreferences(dataStore)
-                INSTANCE = instance
-                instance
-            }
-        }
-    }
-
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[THEME_KEY] ?: false
@@ -34,5 +19,10 @@ class SettingPreferences(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { preferences ->
             preferences[THEME_KEY] = isDarkModeActive
         }
+    }
+
+    companion object {
+
+        private val THEME_KEY = booleanPreferencesKey("theme_setting")
     }
 }

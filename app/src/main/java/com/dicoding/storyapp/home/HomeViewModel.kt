@@ -28,15 +28,7 @@ class HomeViewModel(
 
     fun getBookmarkedStories() = storyUseCase.getBookmarkedStories().asLiveData()
 
-    fun saveStory(story: Story) {
-        viewModelScope.launch {
-            storyUseCase.setStoryBookmark(story, true)
-        }
-    }
+    fun saveStory(story: Story) = storyUseCase.setStoryBookmark(story, true)
 
-    fun deleteStory(story: Story) {
-        viewModelScope.launch {
-            storyUseCase.setStoryBookmark(story, false)
-        }
-    }
+    fun deleteStory(story: Story) = storyUseCase.setStoryBookmark(story, false)
 }

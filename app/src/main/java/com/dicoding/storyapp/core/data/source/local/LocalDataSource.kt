@@ -35,13 +35,4 @@ class LocalDataSource(
     fun deleteAll() = storyDao.deleteAll()
 
     fun isStoryBookmarked(id: String): Boolean = storyDao.isStoryBookmarked(id)
-
-    companion object {
-        private var instance: LocalDataSource? = null
-
-        fun getInstance(userPreferences: UserPreferences, storyDao: StoryDao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(userPreferences, storyDao)
-            }
-    }
 }

@@ -90,14 +90,4 @@ class RemoteDataSource(private val apiService: ApiService){
             emit(ApiResponse.Error(exception.message.toString()))
         }
     }.flowOn(Dispatchers.IO)
-
-    companion object {
-        @Volatile
-        private var instance: RemoteDataSource? = null
-
-        fun getInstance(apiService: ApiService): RemoteDataSource =
-            instance ?: synchronized(this) {
-                instance ?: RemoteDataSource(apiService)
-            }
-    }
 }

@@ -42,18 +42,4 @@ class StoryRepository(
 
     override fun getAllStoriesWithLocation(token: String): Flow<ApiResponse<AllStoriesResponse>> =
         remoteDataSource.getAllStoriesWithLocation(token)
-
-    companion object {
-        @Volatile
-        private var instance: StoryRepository? = null
-
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource,
-            appExecutors: AppExecutors
-        ) : StoryRepository =
-            instance ?: synchronized(this) {
-                instance ?: StoryRepository(remoteDataSource, localDataSource, appExecutors)
-            }.also { instance = it }
-    }
 }
