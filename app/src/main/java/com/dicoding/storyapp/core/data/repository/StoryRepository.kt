@@ -14,7 +14,7 @@ import com.dicoding.storyapp.core.utils.StoryDataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class StoryRepository private constructor(
+class StoryRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors

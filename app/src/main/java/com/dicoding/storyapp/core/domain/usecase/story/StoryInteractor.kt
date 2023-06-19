@@ -1,15 +1,15 @@
 package com.dicoding.storyapp.core.domain.usecase.story
 
-import com.dicoding.storyapp.core.data.repository.StoryRepository
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.core.data.source.remote.response.AllStoriesResponse
 import com.dicoding.storyapp.core.data.source.remote.response.DetailStoryResponse
 import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
 import com.dicoding.storyapp.core.domain.model.Story
+import com.dicoding.storyapp.core.domain.repository.IStoryRepository
 import kotlinx.coroutines.flow.Flow
 
-class StoryInteractor(private val storyRepository: StoryRepository): StoryUseCase {
+class StoryInteractor(private val storyRepository: IStoryRepository): StoryUseCase {
     override fun addNewStory(
         token: String?,
         newStoryRequest: NewStoryRequest

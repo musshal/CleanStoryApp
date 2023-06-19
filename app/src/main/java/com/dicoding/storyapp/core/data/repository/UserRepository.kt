@@ -11,7 +11,7 @@ import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
 import com.dicoding.storyapp.core.domain.repository.IUserRepository
 import kotlinx.coroutines.flow.Flow
 
-class UserRepository private constructor(
+class UserRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
     ): IUserRepository {

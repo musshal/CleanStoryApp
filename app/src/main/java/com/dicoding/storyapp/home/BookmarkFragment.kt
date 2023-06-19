@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyapp.core.ui.StoriesBookmarkAdapter
 import com.dicoding.storyapp.databinding.FragmentBookmarkBinding
-import com.dicoding.storyapp.core.ui.ViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookmarkFragment : Fragment() {
 
+    private val viewModel: HomeViewModel by viewModel()
+
     private lateinit var binding: FragmentBookmarkBinding
-    private lateinit var viewModel: HomeViewModel
     private lateinit var storiesBookmarkAdapter: StoriesBookmarkAdapter
 
 
@@ -30,16 +30,8 @@ class BookmarkFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
-        setupViewModel()
         setupData()
         setData()
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(requireContext())
-        )[HomeViewModel::class.java]
     }
 
     private fun setupAdapter() {

@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class SettingPreferences private constructor(private val dataStore: DataStore<Preferences>) {
+class SettingPreferences(private val dataStore: DataStore<Preferences>) {
 
     companion object {
         @Volatile

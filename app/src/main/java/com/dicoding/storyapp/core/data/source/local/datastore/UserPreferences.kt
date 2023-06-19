@@ -8,7 +8,7 @@ import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserPreferences private constructor(private val dataStore: DataStore<Preferences>) {
+class UserPreferences(private val dataStore: DataStore<Preferences>) {
 
     suspend fun setLogin(user: UserEntity) {
         dataStore.edit { preferences ->

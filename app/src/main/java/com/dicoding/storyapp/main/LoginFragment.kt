@@ -16,24 +16,25 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.LoginRequest
 import com.dicoding.storyapp.core.data.source.remote.response.LoginResult
 import com.dicoding.storyapp.databinding.FragmentLoginBinding
-import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.insert.InsertActivity
 import com.dicoding.storyapp.setting.SettingActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("PrivatePropertyName")
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModel: MainViewModel
-    private var backPressedTime: Long = 0
+    private val viewModel: MainViewModel by viewModel()
     private val BACK_PRESSED_INTERVAL = 2000
+
+    private var backPressedTime: Long = 0
+
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViewModel()
         setupAction()
         playAnimation()
     }
@@ -196,13 +196,6 @@ class LoginFragment : Fragment() {
 
     private fun setLogin(loginResult: LoginResult) {
         loginResult.apply { viewModel.setLogin(UserEntity(userId, name, token)) }
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(requireContext())
-        )[MainViewModel::class.java]
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

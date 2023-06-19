@@ -13,7 +13,7 @@ import com.dicoding.storyapp.core.domain.repository.IStoryPagingRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class StoryPagingRepository private constructor(
+class StoryPagingRepository(
     private val apiService: ApiService,
     private val storyDatabase: StoryDatabase
 ): IStoryPagingRepository {

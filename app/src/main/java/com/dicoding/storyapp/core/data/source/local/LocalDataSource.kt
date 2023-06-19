@@ -8,7 +8,7 @@ import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import com.dicoding.storyapp.core.data.source.local.room.StoryDao
 import kotlinx.coroutines.flow.Flow
 
-class LocalDataSource private constructor(
+class LocalDataSource(
     private val userPreferences: UserPreferences,
     private val storyDao: StoryDao
     ) {
