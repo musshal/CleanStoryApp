@@ -1,6 +1,5 @@
 package com.dicoding.storyapp.core.data.repository
 
-import androidx.lifecycle.map
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -14,7 +13,7 @@ import com.dicoding.storyapp.core.domain.repository.IStoryPagingRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class StoryPagingRepository private constructor(
+class StoryPagingRepository(
     private val apiService: ApiService,
     private val storyDatabase: StoryDatabase
 ): IStoryPagingRepository {
@@ -43,17 +42,4 @@ class StoryPagingRepository private constructor(
                 )
             }
         }
-
-    companion object {
-        @Volatile
-        private var instance: StoryPagingRepository? = null
-
-        fun getInstance(
-            apiService: ApiService,
-            storyDatabase: StoryDatabase
-        ): StoryPagingRepository =
-            instance ?: synchronized(this) {
-                instance ?: StoryPagingRepository(apiService, storyDatabase)
-            }.also { instance = it }
-    }
 }

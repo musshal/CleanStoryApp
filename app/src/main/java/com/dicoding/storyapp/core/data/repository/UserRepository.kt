@@ -11,7 +11,7 @@ import com.dicoding.storyapp.core.data.source.remote.response.MessageResponse
 import com.dicoding.storyapp.core.domain.repository.IUserRepository
 import kotlinx.coroutines.flow.Flow
 
-class UserRepository private constructor(
+class UserRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
     ): IUserRepository {
@@ -27,17 +27,4 @@ class UserRepository private constructor(
     override fun getLogin(): Flow<UserEntity> = localDataSource.getLogin()
 
     override suspend fun deleteLogin() = localDataSource.deleteLogin()
-
-    companion object {
-        @Volatile
-        private var instance: UserRepository? = null
-
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource
-        ): UserRepository =
-            instance ?: synchronized(this) {
-                instance ?: UserRepository(remoteDataSource, localDataSource)
-            }.also { instance = it }
-    }
 }

@@ -8,16 +8,16 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.databinding.ActivitySettingBinding
-import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.main.MainActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingActivity : AppCompatActivity() {
 
+    private val viewModel: SettingViewModel by viewModel()
+
     private lateinit var binding: ActivitySettingBinding
-    private lateinit var viewModel: SettingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,6 @@ class SettingActivity : AppCompatActivity() {
         supportActionBar?.setTitle(R.string.setting)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setupViewModel()
         initTheme()
     }
 
@@ -40,13 +39,6 @@ class SettingActivity : AppCompatActivity() {
                 viewModel.saveThemeSetting(isChecked)
             }
         }
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(this)
-        )[SettingViewModel::class.java]
     }
 
     private fun executeGetThemeSetting() {

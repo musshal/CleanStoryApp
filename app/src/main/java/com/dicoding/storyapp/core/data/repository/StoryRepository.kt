@@ -14,7 +14,7 @@ import com.dicoding.storyapp.core.utils.StoryDataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class StoryRepository private constructor(
+class StoryRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
@@ -42,18 +42,4 @@ class StoryRepository private constructor(
 
     override fun getAllStoriesWithLocation(token: String): Flow<ApiResponse<AllStoriesResponse>> =
         remoteDataSource.getAllStoriesWithLocation(token)
-
-    companion object {
-        @Volatile
-        private var instance: StoryRepository? = null
-
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource,
-            appExecutors: AppExecutors
-        ) : StoryRepository =
-            instance ?: synchronized(this) {
-                instance ?: StoryRepository(remoteDataSource, localDataSource, appExecutors)
-            }.also { instance = it }
-    }
 }

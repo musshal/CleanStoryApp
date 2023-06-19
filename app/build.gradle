@@ -76,6 +76,8 @@ dependencies {
     implementation "androidx.camera:camera-view:1.2.2"
     implementation "androidx.paging:paging-runtime-ktx:3.1.0"
     implementation 'androidx.room:room-paging:2.4.0-rc01'
+    implementation "io.insert-koin:koin-core:3.4.2"
+    implementation "io.insert-koin:koin-android:3.4.2"
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.12.4'
     testImplementation 'org.mockito:mockito-inline:3.12.4'

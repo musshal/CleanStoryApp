@@ -7,9 +7,8 @@ import com.dicoding.storyapp.core.data.source.local.entity.StoryEntity
 import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import com.dicoding.storyapp.core.data.source.local.room.StoryDao
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
-class LocalDataSource private constructor(
+class LocalDataSource(
     private val userPreferences: UserPreferences,
     private val storyDao: StoryDao
     ) {
@@ -36,13 +35,4 @@ class LocalDataSource private constructor(
     fun deleteAll() = storyDao.deleteAll()
 
     fun isStoryBookmarked(id: String): Boolean = storyDao.isStoryBookmarked(id)
-
-    companion object {
-        private var instance: LocalDataSource? = null
-
-        fun getInstance(userPreferences: UserPreferences, storyDao: StoryDao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(userPreferences, storyDao)
-            }
-    }
 }

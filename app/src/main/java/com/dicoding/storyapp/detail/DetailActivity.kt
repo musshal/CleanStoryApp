@@ -8,21 +8,21 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.response.StoryResponse
 import com.dicoding.storyapp.core.domain.model.Story
 import com.dicoding.storyapp.databinding.ActivityDetailBinding
-import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.core.utils.DateFormatter
 import com.dicoding.storyapp.main.MainActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
 
+    private val viewModel: DetailViewModel by viewModel()
+
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var viewModel: DetailViewModel
 
     companion object {
         const val EXTRA_STORY = "extra_story"
@@ -40,7 +40,6 @@ class DetailActivity : AppCompatActivity() {
         val story = intent.getParcelableExtra(EXTRA_STORY) as Story?
 
         if (story != null) {
-            setupViewModel()
             setupData(story)
             setupAction(story)
         }
@@ -132,13 +131,6 @@ class DetailActivity : AppCompatActivity() {
             tvDetailDescription.text = story.description
             tvDetailCreatedAt.text = DateFormatter.formatDate(story.createdAt)
         }
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(this)
-        )[DetailViewModel::class.java]
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

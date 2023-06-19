@@ -8,7 +8,7 @@ import com.dicoding.storyapp.core.data.source.local.entity.UserEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserPreferences private constructor(private val dataStore: DataStore<Preferences>) {
+class UserPreferences(private val dataStore: DataStore<Preferences>) {
 
     suspend fun setLogin(user: UserEntity) {
         dataStore.edit { preferences ->
@@ -35,18 +35,9 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
     }
 
     companion object {
-        @Volatile
-        private var INSTANCE: UserPreferences? = null
 
-        private val USER_ID = stringPreferencesKey("id")
+        private val USER_ID = stringPreferencesKey("userId")
         private val NAME = stringPreferencesKey("name")
         private val TOKEN = stringPreferencesKey("token")
-
-        fun getInstance(dataStore: DataStore<Preferences>): UserPreferences =
-            INSTANCE ?: synchronized(this) {
-                val instance = UserPreferences(dataStore)
-                INSTANCE = instance
-                instance
-            }
     }
 }

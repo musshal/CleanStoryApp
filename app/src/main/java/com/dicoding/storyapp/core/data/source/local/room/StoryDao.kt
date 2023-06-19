@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StoryDao {
-    @Query("SELECT * FROM stories WHERE is_bookmarked == 0 ORDER BY created_at DESC")
+    @Query("SELECT * FROM stories ORDER BY created_at DESC")
     fun getAllStories(): PagingSource<Int, StoryEntity>
 
     @Query("SELECT * FROM stories WHERE lat != NULL AND lon != NULL")

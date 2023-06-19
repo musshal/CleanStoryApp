@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyapp.databinding.FragmentHomeBinding
-import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.core.ui.LoadingStateAdapter
 import com.dicoding.storyapp.core.ui.StoriesHomeAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
+    private val viewModel: HomeViewModel by viewModel()
+
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: HomeViewModel
     private lateinit var storiesHomeAdapter: StoriesHomeAdapter
 
     override fun onCreateView(
@@ -30,7 +30,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
-        setupViewModel()
         setupData()
         setData()
         setupAction()
@@ -68,13 +67,6 @@ class HomeFragment : Fragment() {
         viewModel.getAllStories(token).observe(viewLifecycleOwner) {
             storiesHomeAdapter.submitData(lifecycle, it)
         }
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(requireContext())
-        )[HomeViewModel::class.java]
     }
 
     private fun setupAdapter() {

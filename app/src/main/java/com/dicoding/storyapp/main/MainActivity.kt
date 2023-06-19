@@ -4,23 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.databinding.ActivityMainBinding
-import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.home.HomeActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
+    private val viewModel: MainViewModel by viewModel()
+
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupViewModel()
         initTheme()
         setupFragment()
     }
@@ -56,13 +55,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun initTheme() {
         viewModel.getThemeSetting()
-    }
-
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(this)
-        )[MainViewModel::class.java]
     }
 }

@@ -17,13 +17,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.camera.CameraActivity
 import com.dicoding.storyapp.core.data.source.remote.network.ApiResponse
 import com.dicoding.storyapp.core.data.source.remote.request.NewStoryRequest
 import com.dicoding.storyapp.databinding.ActivityInsertBinding
-import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.core.utils.reduceFileImage
 import com.dicoding.storyapp.core.utils.rotateFile
 import com.dicoding.storyapp.core.utils.uriToFile
@@ -34,13 +32,15 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import com.dicoding.storyapp.main.MainActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class InsertActivity : AppCompatActivity() {
+
+    private val viewModel: InsertViewModel by viewModel()
 
     private var getFile: File? = null
 
     private lateinit var binding: ActivityInsertBinding
-    private lateinit var viewModel: InsertViewModel
 
     companion object {
         const val CAMERA_X_RESULT = 200
@@ -121,7 +121,6 @@ class InsertActivity : AppCompatActivity() {
             )
         }
 
-        setupViewModel()
         setupSupportActionBarTitle()
         setupAction()
     }
@@ -140,13 +139,6 @@ class InsertActivity : AppCompatActivity() {
                 supportActionBar?.setTitle(R.string.add_new_story_guest)
             }
         }
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(this)
-        )[InsertViewModel::class.java]
     }
 
     private fun startCameraX() {

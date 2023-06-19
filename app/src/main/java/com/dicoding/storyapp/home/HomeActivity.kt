@@ -9,26 +9,26 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.dicoding.storyapp.R
 import com.dicoding.storyapp.core.ui.SectionsPagerAdapter
 import com.dicoding.storyapp.databinding.ActivityHomeBinding
-import com.dicoding.storyapp.core.ui.ViewModelFactory
 import com.dicoding.storyapp.insert.InsertActivity
 import com.dicoding.storyapp.main.MainActivity
 import com.dicoding.storyapp.maps.MapsActivity
 import com.dicoding.storyapp.setting.SettingActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("PrivatePropertyName")
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModel()
+    private val BACK_PRESSED_INTERVAL = 2000
 
     private var backPressedTime: Long = 0
-    private val BACK_PRESSED_INTERVAL = 2000
+
+    private lateinit var binding: ActivityHomeBinding
 
     companion object {
         @StringRes
@@ -43,7 +43,6 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0f
 
         setupSectionsPagerAdapter()
-        setupViewModel()
         setupAction()
     }
 
@@ -63,13 +62,6 @@ class HomeActivity : AppCompatActivity() {
                 backPressedTime = System.currentTimeMillis()
             }
         })
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(this)
-        )[HomeViewModel::class.java]
     }
 
     private fun setupSectionsPagerAdapter() {
