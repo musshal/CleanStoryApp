@@ -1,21 +1,21 @@
-package com.dicoding.storyapp.core.ui
+package com.dicoding.storyapp.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dicoding.storyapp.R
+import com.dicoding.storyapp.core.R
+import com.dicoding.storyapp.core.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.core.domain.model.Story
-import com.dicoding.storyapp.databinding.ItemRowStoryBinding
 import com.dicoding.storyapp.detail.DetailActivity
 
-class StoriesBookmarkAdapter(private val onBookmarkClick: (Story) -> Unit) :
-    ListAdapter<Story, StoriesBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
+class StoriesHomeAdapter(private val onBookmarkClick: (Story) -> Unit) :
+    PagingDataAdapter<Story, StoriesHomeAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(val binding: ItemRowStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -46,30 +46,32 @@ class StoriesBookmarkAdapter(private val onBookmarkClick: (Story) -> Unit) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val story = getItem(position)
 
-        Glide.with(holder.itemView.context).load(story.photoUrl).into(holder.ivStoryImage)
+        if (story != null) {
+            Glide.with(holder.itemView.context).load(story.photoUrl).into(holder.ivStoryImage)
 
-        holder.tvStoryName.text = story.name
-        holder.tvStoryDescription.text = story.description
+            holder.tvStoryName.text = story.name
+            holder.tvStoryDescription.text = story.description
 
-        val ivBookmark = holder.ivBookmark
+            val ivBookmark = holder.ivBookmark
 
-        if (story.isBookmarked) {
-            ivBookmark.setImageDrawable(ContextCompat.getDrawable(
-                ivBookmark.context,
-                R.drawable.baseline_bookmark_48)
-            )
-        } else {
-            ivBookmark.setImageDrawable(ContextCompat.getDrawable(
-                ivBookmark.context,
-                R.drawable.baseline_bookmark_border_48)
-            )
+            if (story.isBookmarked) {
+                ivBookmark.setImageDrawable(ContextCompat.getDrawable(
+                    ivBookmark.context,
+                    R.drawable.baseline_bookmark_48)
+                )
+            } else {
+                ivBookmark.setImageDrawable(ContextCompat.getDrawable(
+                    ivBookmark.context,
+                    R.drawable.baseline_bookmark_border_48)
+                )
+            }
+
+            ivBookmark.setOnClickListener {
+                onBookmarkClick(story)
+            }
+
+            holder.bind(story)
         }
-
-        ivBookmark.setOnClickListener {
-            onBookmarkClick(story)
-        }
-
-        holder.bind(story)
     }
 
     companion object {

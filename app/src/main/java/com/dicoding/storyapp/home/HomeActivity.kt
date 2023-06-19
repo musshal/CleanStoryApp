@@ -10,7 +10,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.storyapp.R
-import com.dicoding.storyapp.core.ui.SectionsPagerAdapter
+import com.dicoding.storyapp.ui.SectionsPagerAdapter
 import com.dicoding.storyapp.databinding.ActivityHomeBinding
 import com.dicoding.storyapp.insert.InsertActivity
 import com.dicoding.storyapp.main.MainActivity

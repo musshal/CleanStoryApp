@@ -1,4 +1,4 @@
-package com.dicoding.storyapp.core.ui
+package com.dicoding.storyapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

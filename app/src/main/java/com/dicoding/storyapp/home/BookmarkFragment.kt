@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.storyapp.core.ui.StoriesBookmarkAdapter
+import com.dicoding.storyapp.ui.StoriesBookmarkAdapter
 import com.dicoding.storyapp.databinding.FragmentBookmarkBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

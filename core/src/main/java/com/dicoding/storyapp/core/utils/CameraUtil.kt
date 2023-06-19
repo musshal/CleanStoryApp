@@ -8,7 +8,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
-import com.dicoding.storyapp.R
+import com.dicoding.storyapp.core.R
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream

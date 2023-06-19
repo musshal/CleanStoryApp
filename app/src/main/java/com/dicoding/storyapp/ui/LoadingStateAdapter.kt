@@ -1,4 +1,4 @@
-package com.dicoding.storyapp.core.ui
+package com.dicoding.storyapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dicoding.storyapp.databinding.ItemLoadingBinding
+import com.dicoding.storyapp.core.databinding.ItemLoadingBinding
 
 class LoadingStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<LoadingStateAdapter.LoadingStateViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadingStateViewHolder {
