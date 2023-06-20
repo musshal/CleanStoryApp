@@ -4,5 +4,5 @@
     <item android:id="@+id/menu_sign_out"
         android:title="@string/sign_out"
         android:icon="@drawable/baseline_logout_24"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>
