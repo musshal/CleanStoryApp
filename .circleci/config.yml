@@ -23,6 +23,9 @@ jobs:
             - ~/.android/build-cache
             - ~/.android/cache
       - run:
+          name: Create Local Properties
+          command: touch local.properties
+      - run:
           name: Run Build
           command: ./gradlew build
       - store_artifacts: 
