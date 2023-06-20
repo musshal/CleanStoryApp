@@ -8,7 +8,7 @@ jobs:
     machine:
       image: ubuntu-2204:2022.04.2
     environment:
-      ANDROID_HOME: /usr/local/android-sdk
+      ANDROID_HOME: /usr/local/android-sdk-linux
     steps:
       - checkout
       - restore_cache:
@@ -18,10 +18,7 @@ jobs:
           command: sudo chmod +x ./gradlew
       - run:
           name: Set SDK Location
-          command: echo "sdk.dir=/usr/local/android-sdk" > local.properties
-      - run:
-          name: Set JDK Location in Gradle
-          command: echo "org.gradle.java.home=/usr/lib/jvm/java-17-openjdk-amd64" >> gradle.properties
+          command: echo "sdk.dir=/usr/local/android-sdk-linux" > local.properties
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
