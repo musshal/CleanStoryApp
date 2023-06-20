@@ -16,7 +16,7 @@ jobs:
           command: sudo chmod +x ./gradlew
       - run:
           name: Create Local Properties
-          command: echo "sdk.dir=/usr/local/android-sdk-linux" > local.properties
+          command: echo "sdk.dir=$ANDROID_HOME" > local.properties
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -27,7 +27,7 @@ jobs:
             - ~/.android/cache
       - run:
           name: Run Build
-          command: ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew build
+          command: ./gradlew build
       - store_artifacts: 
           path: app/build/reports
           destination: reports
