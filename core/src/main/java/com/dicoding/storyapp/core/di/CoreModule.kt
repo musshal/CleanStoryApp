@@ -59,7 +59,13 @@ val databaseModule = module {
 val networkModule = module {
     single {
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(
+                if (BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+                } else {
+                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+                }
+            )
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
