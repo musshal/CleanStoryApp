@@ -11,14 +11,15 @@ jobs:
       - setup_remote_docker:
           version: 20.10.7
       - run:
-          name: Import GPG key for Cloud SDK repository
+          name: Install sdkman
           command: |
-            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            curl -s "https://get.sdkman.io" | bash
+            source "$HOME/.sdkman/bin/sdkman-init.sh"
+            sdk version
       - run:
           name: Install Java 17
           command: |
-            sudo apt-get update
-            sudo apt-get install -y openjdk-17-jdk
+            sdk install java 17.0.0-open
             java -version
       - run:
           name: Chmod permissions
