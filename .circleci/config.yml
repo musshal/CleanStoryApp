@@ -8,24 +8,20 @@ jobs:
     executor: android/android
     steps:
       - checkout
-      - restore_cache:
-          key: android-orb-v1-
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: Install Java 17
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y openjdk-17-jdk
+            java -version
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
-          name: Set up Java 17
-          command: |
-            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-            java -version
-      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - save_cache:
-          key: 'android-orb-v1-{{ epoch }}'
-          paths:
-            - ~/.android/build-cache
-            - ~/.android/cache
       - run:
           name: Run Build
           command: ./gradlew build
