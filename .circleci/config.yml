@@ -27,7 +27,7 @@ jobs:
             - ~/.android/cache
       - run:
           name: Accept License
-          command: $ANDROID_HOME/tools/bin/sdkmanager --licenses
+          command: echo yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
       - run:
           name: Run Build
           command: ./gradlew build
