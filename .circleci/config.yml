@@ -5,6 +5,8 @@ orbs:
  
 jobs:
   build:
+    machine:
+      image: ubuntu-2004:current
     executor: android/android
     steps:
       - checkout
