@@ -7,7 +7,6 @@ jobs:
   build:
     machine:
       image: ubuntu-2204:2022.04.2
-    environment:
     steps:
       - checkout
       - restore_cache:
@@ -17,7 +16,7 @@ jobs:
           command: sudo chmod +x ./gradlew
       - run:
           name: Set SDK Location
-          command: touch local.properties
+          command: echo "sdk.dir=$ANDROID_HOME" >> local.properties
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
