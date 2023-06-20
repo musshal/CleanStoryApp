@@ -19,7 +19,7 @@ jobs:
           command: echo "sdk.dir=$ANDROID_HOME" > local.properties
       - run:
           name: Accept Android SDK Licenses
-          command: yes | /usr/local/android-sdk-linux/cmdline-tools/latest/bin/sdkmanager --licenses
+          command: yes | /home/circleci/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
