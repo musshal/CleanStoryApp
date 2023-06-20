@@ -11,6 +11,10 @@ jobs:
       - setup_remote_docker:
           version: 20.10.7
       - run:
+          name: Import GPG key for Cloud SDK repository
+          command: |
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      - run:
           name: Install Java 17
           command: |
             sudo apt-get update
