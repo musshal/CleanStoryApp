@@ -19,7 +19,7 @@ jobs:
           command: echo "sdk.dir=$ANDROID_HOME" > local.properties
       - run:
           name: Accept Android SDK Licenses
-          command: echo y | android update sdk --no-ui --all --filter “android-33”
+          command:  yes | sdkmanager --licenses
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
