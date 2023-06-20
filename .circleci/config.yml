@@ -5,7 +5,7 @@ orbs:
  
 jobs:
   build:
-    executor: 'cimg/openjdk:17.0'
+    executor: cimg/openjdk:17.0
     steps:
       - checkout
       - restore_cache:
