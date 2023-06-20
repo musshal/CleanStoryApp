@@ -10,14 +10,17 @@ jobs:
       - checkout
       - restore_cache:
           key: android-orb-v1-
-      - setup_remote_docker:
-          version: 20.10.17
+      - run:
+          name: Add keyserver and update package lists
+          command: |
+            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B53DC80D13EDEF05
+            sudo apt-get update
       - run:
           name: Install OpenJDK 17
           command: |
-            sudo apt-get update && sudo apt-get install openjdk-17-jdk
+            sudo apt-get install openjdk-17-jdk
+            sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1
             sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
             java -version
       - run:
           name: Chmod permissions
