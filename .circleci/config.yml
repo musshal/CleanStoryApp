@@ -26,6 +26,9 @@ jobs:
             - ~/.android/build-cache
             - ~/.android/cache
       - run:
+          name: Accepted License
+          command: sdkmanager.bat --licenses
+      - run:
           name: Run Build
           command: ./gradlew build
       - store_artifacts: 
