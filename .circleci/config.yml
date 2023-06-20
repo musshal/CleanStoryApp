@@ -1,8 +1,8 @@
 version: 2.1
- 
+
 orbs:
   android: circleci/android@0.2.1
- 
+
 jobs:
   build:
     executor: android/android
@@ -13,6 +13,11 @@ jobs:
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
+      - run:
+          name: Set up Java 17
+          command: |
+            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+            java -version
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
