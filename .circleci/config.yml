@@ -18,9 +18,10 @@ jobs:
       - run:
           name: Install OpenJDK 17
           command: |
-            sudo apt-get install openjdk-17-jdk
-            sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1
-            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+            wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
+            echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ bionic main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
+            sudo apt-get update
+            sudo apt-get install -y adoptopenjdk-17-hotspot
             java -version
       - run:
           name: Chmod permissions
