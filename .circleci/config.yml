@@ -24,7 +24,7 @@ jobs:
             - ~/.android/cache
       - run:
           name: Create Local Properties
-          command: touch local.properties
+          command: echo "sdk.dir=%ANDROID_HOME" > local.properties
       - run:
           name: Run Build
           command: ./gradlew build
