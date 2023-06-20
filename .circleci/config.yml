@@ -1,8 +1,8 @@
 version: 2.1
-
+ 
 orbs:
   android: circleci/android@0.2.1
-
+ 
 jobs:
   build:
     machine:
@@ -14,12 +14,6 @@ jobs:
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
-      - run:
-          name: Accept Android SDK licenses
-          command: echo y | android-sdk-license.sh
-      - run:
-          name: Install missing Android SDK components
-          command: sdkmanager "patcher;v4" "emulator" "build-tools;30.0.3" "platform-tools" "platforms;android-33" "tools"
       - run:
           name: Set SDK Location
           command: echo "sdk.dir=$ANDROID_HOME" >> local.properties
@@ -34,7 +28,7 @@ jobs:
       - run:
           name: Run Build
           command: ./gradlew build
-      - store_artifacts:
+      - store_artifacts: 
           path: app/build/reports
           destination: reports
       - run:
@@ -42,6 +36,6 @@ jobs:
           command: ./gradlew lint test
       - store_test_results:
           path: app/build/test-results
-      - store_artifacts:
+      - store_artifacts:  
           path: app/build/outputs/apk/debug/
           destination: artifact-file
