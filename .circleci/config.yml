@@ -20,6 +20,9 @@ jobs:
           name: Set SDK Location
           command: echo "sdk.dir=/usr/local/android-sdk" > local.properties
       - run:
+          name: Set JDK Location in Gradle
+          command: echo "org.gradle.java.home=/usr/lib/jvm/java-17-openjdk-amd64" >> gradle.properties
+      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
