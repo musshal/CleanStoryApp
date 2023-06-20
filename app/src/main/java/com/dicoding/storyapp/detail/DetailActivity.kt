@@ -107,13 +107,13 @@ class DetailActivity : AppCompatActivity() {
                         viewModel.deleteStory(story)
                     fabDetailSaveBookmark.setImageDrawable(ContextCompat.getDrawable(
                         this@DetailActivity,
-                        R.drawable.baseline_favorite_48
+                        R.drawable.baseline_favorite_border_48
                     ))
                 } else {
                     viewModel.saveStory(story)
                     fabDetailSaveBookmark.setImageDrawable(ContextCompat.getDrawable(
                         this@DetailActivity,
-                        R.drawable.baseline_favorite_border_48
+                        R.drawable.baseline_favorite_48
                     ))
                 }
             }
