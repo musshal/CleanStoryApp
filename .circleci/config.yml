@@ -5,24 +5,11 @@ orbs:
  
 jobs:
   build:
-    executor: android/android
+    executor: 'cimg/openjdk:17.0'
     steps:
       - checkout
       - restore_cache:
           key: android-orb-v1-
-      - run:
-          name: Add keyserver and update package lists
-          command: |
-            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B53DC80D13EDEF05
-            sudo apt-get update
-      - run:
-          name: Install OpenJDK 17
-          command: |
-            wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-            echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ bionic main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
-            sudo apt-get update
-            sudo apt-get install -y adoptopenjdk-17-hotspot
-            java -version
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
