@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  android: circleci/android@2.3.0
+  android: circleci/android:api-26-alpha
 
 jobs:
   build:
@@ -17,9 +17,7 @@ jobs:
       - run:
           name: Create Local Properties
           command: echo "sdk.dir=$ANDROID_HOME" > local.properties
-      - run:
-          name: Accept Android SDK Licenses
-          command: yes | ~/sdkmanager --licenses
+      - run: sdkmanager --install "ndk-bundle" && yes | sdkmanager --licenses
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
