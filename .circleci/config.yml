@@ -10,14 +10,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: android-orb-v1-
+          key: android-orb-v2-
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
           name: Create Local Properties
           command: echo "sdk.dir=$ANDROID_HOME" > local.properties
-      - run: sdkmanager --install "ndk-bundle" && yes | sdkmanager --licenses
+      - run:
+          name: Accept Android SDK Licenses
+          command: yes | sdkmanager --licenses
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
