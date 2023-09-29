@@ -18,16 +18,16 @@ jobs:
           name: Create Local Properties
           command: echo "sdk.dir=$ANDROID_HOME" > local.properties
       - run:
-          name: Accept Android SDK licenses
-          command: yes | sdkmanager --licenses
-      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
-          key: 'android-orb-v1-{{ epoch }}'
+          key: 'android-orb-v2-{{ epoch }}'
           paths:
             - ~/.android/build-cache
             - ~/.android/cache
+      - run:
+          name: Accept Android SDK Licenses
+          command: yes | sdkmanager --licenses
       - run:
           name: Run Build
           command: ./gradlew build
