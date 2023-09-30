@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/openjdk:17.0-node
+      - image: cimg/android:2023.09
     steps:
       - checkout
       - restore_cache:
