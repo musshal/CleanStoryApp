@@ -3,15 +3,18 @@ package com.dicoding.storyapp.ui.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.recyclerview.widget.ListUpdateCallback
-import com.dicoding.storyapp.data.entity.StoryEntity
-import com.dicoding.storyapp.data.repository.StoryRepository
-import com.dicoding.storyapp.data.source.local.datastore.UserPreferences
-import com.dicoding.storyapp.ui.adapter.StoriesHomeAdapter
+import com.dicoding.storyapp.core.domain.model.Story
+import com.dicoding.storyapp.core.domain.usecase.story.StoryUseCase
+import com.dicoding.storyapp.core.domain.usecase.storypaging.StoryPagingUseCase
+import com.dicoding.storyapp.core.domain.usecase.user.UserUseCase
+import com.dicoding.storyapp.home.HomeViewModel
+import com.dicoding.storyapp.ui.StoriesHomeAdapter
 import com.dicoding.storyapp.utils.DataDummy
 import com.dicoding.storyapp.utils.MainDispatcherRule
 import com.dicoding.storyapp.utils.getOrAwaitValue
@@ -39,9 +42,11 @@ class HomeViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @Mock
-    private lateinit var userPreferences: UserPreferences
+    private lateinit var userUseCase: UserUseCase
     @Mock
-    private lateinit var storyRepository: StoryRepository
+    private lateinit var storyUseCase: StoryUseCase
+    @Mock
+    private lateinit var storyPagingUseCase: StoryPagingUseCase
     private lateinit var viewModel: HomeViewModel
     private lateinit var token: String
 
@@ -49,18 +54,18 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
-        viewModel = HomeViewModel(userPreferences, storyRepository)
+        viewModel = HomeViewModel(userUseCase, storyUseCase, storyPagingUseCase)
         token = "dummyToken"
     }
 
     @Test
     fun `when get all stories should not null and return data`() = runTest {
         val dummyStories = DataDummy.generateDummyStoryEntity()
-        val data: PagingData<StoryEntity> = StoryPagingSource.snapshot(dummyStories)
-        val expectedStory = MutableLiveData<PagingData<StoryEntity>>()
+        val data: PagingData<Story> = StoryPagingSource.snapshot(dummyStories)
+        val expectedStory = MutableLiveData<PagingData<Story>>()
         expectedStory.value = data
-        `when`(storyRepository.getAllStories(token)).thenReturn(expectedStory)
-        val actualStory: PagingData<StoryEntity> = viewModel.getAllStories(token).getOrAwaitValue()
+        `when`(storyPagingUseCase.getAllStories(token)).thenReturn(expectedStory.asFlow())
+        val actualStory: PagingData<Story> = viewModel.getAllStories(token).getOrAwaitValue()
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoriesHomeAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
@@ -74,11 +79,11 @@ class HomeViewModelTest {
 
     @Test
     fun `when get all stories should return no data`() = runTest {
-        val data: PagingData<StoryEntity> = PagingData.from(emptyList())
-        val expectedStory = MutableLiveData<PagingData<StoryEntity>>()
+        val data: PagingData<Story> = PagingData.from(emptyList())
+        val expectedStory = MutableLiveData<PagingData<Story>>()
         expectedStory.value = data
-        `when`(storyRepository.getAllStories(token)).thenReturn(expectedStory)
-        val actualStory: PagingData<StoryEntity> = viewModel.getAllStories(token).getOrAwaitValue()
+        `when`(storyPagingUseCase.getAllStories(token)).thenReturn(expectedStory.asFlow())
+        val actualStory: PagingData<Story> = viewModel.getAllStories(token).getOrAwaitValue()
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoriesHomeAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
@@ -88,19 +93,19 @@ class HomeViewModelTest {
         assertEquals(0, differ.snapshot().size)
     }
 
-    class StoryPagingSource : PagingSource<Int, LiveData<List<StoryEntity>>>() {
+    class StoryPagingSource : PagingSource<Int, LiveData<List<Story>>>() {
         companion object {
-            fun snapshot(items: List<StoryEntity>): PagingData<StoryEntity> {
+            fun snapshot(items: List<Story>): PagingData<Story> {
                 return PagingData.from(items)
             }
         }
 
         @Suppress("SameReturnValue")
-        override fun getRefreshKey(state: PagingState<Int, LiveData<List<StoryEntity>>>): Int {
+        override fun getRefreshKey(state: PagingState<Int, LiveData<List<Story>>>): Int {
             return 0
         }
 
-        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LiveData<List<StoryEntity>>> {
+        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LiveData<List<Story>>> {
             return LoadResult.Page(emptyList(), 0, 1)
         }
     }

@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId "com.dicoding.storyapp"
         minSdk 21
-        targetSdk 33
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -42,6 +42,7 @@ android {
         viewBinding true
         dataBinding true
     }
+
     dynamicFeatures = [':favorite']
 }
 

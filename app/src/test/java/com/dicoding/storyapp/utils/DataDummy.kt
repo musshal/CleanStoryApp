@@ -1,12 +1,12 @@
 package com.dicoding.storyapp.utils
 
-import com.dicoding.storyapp.data.entity.StoryEntity
+import com.dicoding.storyapp.core.domain.model.Story
 
 object DataDummy {
-    fun generateDummyStoryEntity(): List<StoryEntity> {
-        val items: MutableList<StoryEntity> = arrayListOf()
+    fun generateDummyStoryEntity(): List<Story> {
+        val items: MutableList<Story> = arrayListOf()
         for (i in 0..100) {
-            val story = StoryEntity(
+            val story = Story(
                 "story-$i",
                 "John Doe",
                 "An image description.",
