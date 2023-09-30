@@ -42,7 +42,12 @@ android {
         viewBinding true
         dataBinding true
     }
+
     dynamicFeatures = [':favorite']
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 dependencies {
