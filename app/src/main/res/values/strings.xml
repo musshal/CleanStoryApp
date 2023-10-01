@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Story App</string>
     <string name="upload">Upload</string>
     <string name="camera">Camera</string>
@@ -13,15 +13,15 @@
     <string name="sign_up">Sign Up</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_up_to_create_an_account">Sign up to create an account</string>
-    <string name="home">Home</string>
+    <string name="home" tools:keep="@string/home">Home</string>
     <string name="description">Description</string>
     <string name="show_password">Show password</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="setting">Setting</string>
-    <string name="bookmarks">Bookmarks</string>
+    <string name="bookmarks" tools:keep="@string/bookmarks">Bookmarks</string>
     <string name="save_bookmark">Save Bookmark</string>
     <string name="detail_save_bookmark">Detail Save Bookmark</string>
-    <string name="bookmark">Bookmark</string>
+    <string name="bookmark" tools:keep="@string/bookmark">Bookmark</string>
     <string name="no_bookmarks">No Bookmarks</string>
     <string name="failed_to_capture_an_image">Failed to capture an image</string>
     <string name="failed_to_open_camera">Failed to open camera</string>
@@ -51,7 +51,7 @@
     <string name="switch_camera">Switch Camera</string>
     <string name="detail_photo_story">Detail Photo Story</string>
     <string name="photo_story">Photo Story</string>
-    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_maps" tools:keep="@string/title_activity_maps">MapsActivity</string>
     <string name="maps">Maps</string>
     <string name="email_must_be_a_valid_email">Email must be a valid email</string>
     <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters</string>
