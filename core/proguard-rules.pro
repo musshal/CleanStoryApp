@@ -1,12 +1,3 @@
-# Untuk mempertahankan suatu Class supaya tidak di-obfuscate
--keep public class MyClass
-
-# Supaya line number tetep ada saat di debugging
--keepattributes SourceFile,LineNumberTable
-
-# Gunakan ini untuk mengganti nama file
--renamesourcefileattribute SourceFile
-
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.
@@ -28,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class kotlin.** { *; }
+-dontwarn com.google.errorprone.**
+-dontwarn com.google.errorprone.annotations.**
+-dontwarn androidx.test.platform.**
+-keep class androidx.test.** { *; }
