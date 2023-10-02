@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Story App</string>
     <string name="upload">Unggah</string>
     <string name="camera">Kamera</string>
@@ -13,15 +13,15 @@
     <string name="sign_up">Daftar</string>
     <string name="already_have_an_account">Sudah punya akun?</string>
     <string name="sign_up_to_create_an_account">Daftar untuk membuat akun</string>
-    <string name="home">Beranda</string>
+    <string name="home" tools:keep="@string/home">Beranda</string>
     <string name="description">DesKripsi</string>
     <string name="show_password">Tampilkan kata sandi</string>
     <string name="dark_mode">Mode Gelap</string>
     <string name="setting">Pengaturan</string>
-    <string name="bookmarks">Daftar Markah</string>
+    <string name="bookmarks" tools:keep="@string/bookmarks">Daftar Markah</string>
     <string name="save_bookmark">Simpan Markah</string>
     <string name="detail_save_bookmark">Detail Simpan Markah</string>
-    <string name="bookmark">Markah</string>
+    <string name="bookmark" tools:keep="@string/bookmark">Markah</string>
     <string name="no_bookmarks">Tidak Ada Markah</string>
     <string name="failed_to_capture_an_image">Gagal mengambil gambar</string>
     <string name="failed_to_open_camera">Gagal membuka kamera</string>
@@ -51,7 +51,7 @@
     <string name="switch_camera">Ganti Kamera</string>
     <string name="detail_photo_story">Detail Foto Cerita</string>
     <string name="photo_story">Foto Cerita</string>
-    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_maps" tools:keep="@string/title_activity_maps">MapsActivity</string>
     <string name="maps">Peta</string>
     <string name="email_must_be_a_valid_email">Surel harus valid</string>
     <string name="password_must_be_at_least_8_characters">Kata sandi minimal 8 karakter</string>'

@@ -19,6 +19,9 @@ import com.dicoding.storyapp.core.domain.repository.IStoryPagingRepository
 import com.dicoding.storyapp.core.domain.repository.IStoryRepository
 import com.dicoding.storyapp.core.domain.repository.IUserRepository
 import com.dicoding.storyapp.core.utils.AppExecutors
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -49,15 +52,25 @@ val databaseModule = module {
     factory { get<StoryDatabase>().storyDao() }
     factory { get<StoryDatabase>().remoteKeysDao() }
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("dicoding".toCharArray())
+        val factory = SupportFactory(passphrase)
         Room.databaseBuilder(
             androidContext(),
             StoryDatabase::class.java, "stories_db"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .openHelperFactory(factory)
+            .build()
     }
 }
 
 val networkModule = module {
     single {
+        val hostname = "story-api.dicoding.dev"
+        val certificatePinner = CertificatePinner.Builder()
+            .add(hostname, "sha256/c2fDutSAoeO4Fvho8BwmJtF/e7canIPZA9WDCJ850t8=")
+            .add(hostname, "sha256/jQJTbIh0grw0/1TkHSumWb+Fs0Ggogr621gT3PvPKG0=")
+            .add(hostname, "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
+            .build()
         OkHttpClient.Builder()
             .addInterceptor(
                 if (BuildConfig.DEBUG) {
@@ -68,6 +81,7 @@ val networkModule = module {
             )
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
+            .certificatePinner(certificatePinner)
             .build()
     }
     single {
